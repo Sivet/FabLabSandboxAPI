@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace FabLabSandboxAPI
 {
@@ -31,6 +32,8 @@ namespace FabLabSandboxAPI
                 Configuration.GetConnectionString("MakerSpaceConnection")));
 
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>();
         }
