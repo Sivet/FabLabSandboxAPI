@@ -9,23 +9,27 @@ namespace FabLabSandboxAPI.Controllers
     [ApiController]
     public class MakerSpacesController : ControllerBase
     {
-        private readonly MockRepo _mockRepo = new MockRepo();
+        private readonly IMakerSpaceRepo _repo;
+        public MakerSpacesController(IMakerSpaceRepo repo)
+        {
+            _repo = repo;
+        }
         [HttpGet]
         public ActionResult<IEnumerable<MakerSpace>> GetAllMakerSpaces()
         {
-            var makerSpaces = _mockRepo.GetAllMakerSpaces();
+            var makerSpaces = _repo.GetAllMakerSpaces();
             return Ok(makerSpaces);
         }
         [HttpGet("{id}")]
         public ActionResult<MakerSpace> GetMakerSpaceById(int id)
         {
-            var makerSpace = _mockRepo.GetMakerSpaceById(id);
+            var makerSpace = _repo.GetMakerSpaceById(id);
             return Ok(makerSpace);
         }
         [HttpGet("name/{name}")]
         public ActionResult<MakerSpace> GetMakerSpaceByName(string name)
         {
-            var makerSpace = _mockRepo.GetMakerSpaceByName(name);
+            var makerSpace = _repo.GetMakerSpaceByName(name);
             return Ok(makerSpace);
         }
     }
