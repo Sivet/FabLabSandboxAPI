@@ -1,8 +1,7 @@
 namespace FabLabSandboxAPI.Dtos
 {
-    public class MakerSpaceReadDto
+    public class MakerSpaceCreateDto
     {
-        public int Id { get; set; }
         public string name { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FabLabSandboxAPI.Models;
@@ -12,6 +13,18 @@ namespace FabLabSandboxAPI.Data
         {
             _context = context;
         }
+         public bool SaveChanges()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
+        public void CreateMakerSpace(MakerSpace space)
+        {
+            if(space == null){
+                throw new ArgumentNullException(nameof(space));
+            }
+            _context.Add(space);
+        }
+
         public IEnumerable<MakerSpace> GetAllMakerSpaces()
         {
             return _context.MakerSpaces.ToList();
@@ -29,5 +42,7 @@ namespace FabLabSandboxAPI.Data
             return _context.MakerSpaces.FirstOrDefault(p => p.name == name);
             //throw new System.NotImplementedException();
         }
+
+       
     }
 }

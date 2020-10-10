@@ -25,7 +25,7 @@ namespace FabLabSandboxAPI.Controllers
             var makerSpaces = _repo.GetAllMakerSpaces();
             return Ok(_mapper.Map<IEnumerable<MakerSpaceReadDto>>(makerSpaces));
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetMakerSpaceById")] //Named so the Post can use it
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(int id)
         {
             var makerSpace = _repo.GetMakerSpaceById(id);
@@ -36,6 +36,16 @@ namespace FabLabSandboxAPI.Controllers
         {
             var makerSpace = _repo.GetMakerSpaceByName(name);
             return Ok(_mapper.Map<MakerSpaceReadDto>(makerSpace));
+        }
+        [HttpPost]
+        public ActionResult<MakerSpaceReadDto> CreateMakerSpace(MakerSpaceCreateDto createDto){
+            var makerSpaceModel = _mapper.Map<MakerSpace>(createDto);
+            _repo.CreateMakerSpace(makerSpaceModel);
+            _repo.SaveChanges();
+
+            var makerSpaceReadDto = _mapper.Map<MakerSpaceReadDto>(makerSpaceModel);
+
+            return CreatedAtRoute(nameof(GetMakerSpaceById),new {Id = makerSpaceReadDto.Id}, makerSpaceReadDto);
         }
     }
 }

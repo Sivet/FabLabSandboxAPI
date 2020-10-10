@@ -5,6 +5,11 @@ namespace FabLabSandboxAPI.Data
 {
     public class MockRepo : IMakerSpaceRepo
     {
+        public void CreateMakerSpace(MakerSpace space)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<MakerSpace> GetAllMakerSpaces()
         {
              var makerSpaces = new List<MakerSpace>
@@ -24,6 +29,11 @@ namespace FabLabSandboxAPI.Data
         public MakerSpace GetMakerSpaceByName(string name)
         {
             return new MakerSpace{Id=0, name="FabLab UCL"};
+        }
+
+        public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
