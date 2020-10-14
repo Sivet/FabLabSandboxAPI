@@ -43,6 +43,18 @@ namespace FabLabSandboxAPI.Data
             //throw new System.NotImplementedException();
         }
 
-       
+        public void UpdateMakerSpace(MakerSpace space)
+        {
+            
+        }
+
+        public void DeleteMakerSpace(MakerSpace space)
+        {
+             if (space==null)
+            {
+                throw new ArgumentNullException(nameof(space));
+            }
+            _context.MakerSpaces.Remove(space);
+        }
     }
 }

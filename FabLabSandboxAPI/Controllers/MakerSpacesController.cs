@@ -47,5 +47,18 @@ namespace FabLabSandboxAPI.Controllers
 
             return CreatedAtRoute(nameof(GetMakerSpaceById),new {Id = makerSpaceReadDto.Id}, makerSpaceReadDto);
         }
+         [HttpDelete("{id}")]
+        public ActionResult DeleteMakerSpace(int id)
+        {
+            var makerSpaceModel = _repo.GetMakerSpaceById(id);
+            if (makerSpaceModel == null)
+            {
+                return NotFound();
+            }
+            _repo.DeleteMakerSpace(makerSpaceModel);
+            _repo.SaveChanges();
+            return NoContent();
+        }
+
     }
 }

@@ -10,6 +10,11 @@ namespace FabLabSandboxAPI.Data
             throw new System.NotImplementedException();
         }
 
+        public void DeleteMakerSpace(MakerSpace space)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<MakerSpace> GetAllMakerSpaces()
         {
              var makerSpaces = new List<MakerSpace>
@@ -32,6 +37,11 @@ namespace FabLabSandboxAPI.Data
         }
 
         public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateMakerSpace(MakerSpace space)
         {
             throw new System.NotImplementedException();
         }
