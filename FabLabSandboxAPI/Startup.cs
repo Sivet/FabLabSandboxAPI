@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using System.Reflection;
+using System.IO;
 
 namespace FabLabSandboxAPI
 {
@@ -36,6 +38,19 @@ namespace FabLabSandboxAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>();
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1",
+                new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Swagger for FabLab",
+                    Description = "Swagger for show endpoints and propertis needed for Api",
+                    Version = "v1"
+                });
+               var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+                opt.IncludeXmlComments(filePath,true);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +71,14 @@ namespace FabLabSandboxAPI
             {
                 endpoints.MapControllers();
             });
+            app.UseSwagger();
+            app.UseSwaggerUI(opt =>
+           {
+               opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger for FabLab");
+               opt.RoutePrefix ="";
+           }
+
+            );
         }
     }
 }

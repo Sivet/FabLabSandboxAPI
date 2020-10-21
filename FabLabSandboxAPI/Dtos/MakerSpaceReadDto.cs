@@ -4,18 +4,28 @@ namespace FabLabSandboxAPI.Dtos
 {
     public class MakerSpaceReadDto
     {
-        public int Id { get; set; }
+        /// <summary> Id for found some MakerSpase - DB do it self</summary>
 
+        public int Id { get; set; }
+        /// <summary>Name for create MakerSpase - Required field</summary>
         [Required]
+        [MaxLength(250)]
         public string Name { get; set; }
 
+        /// <summary>PostCode for create MakerSpase - Required field</summary>
         [Required]
-        public string PostCode { get; set;}
+        [MaxLength(4)]
+        public string PostCode { get; set; }
 
+        /// <summary>Street for create MakerSpase - Required field</summary>
         [Required]
+        [MaxLength(100)]
         public string Street { get; set; }
 
+        /// <summary>City for create MakerSpase - Required fielddoc</summary>
         [Required]
+        [MaxLength(250)]
         public string City { get; set; }
+
     }
 }
