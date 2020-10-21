@@ -23,5 +23,7 @@ namespace FabLabSandboxAPI.Models
         [MaxLength(250)]
         public string City { get; set; }
 
+        public bool IsAccepted{ get; set; }
+
     }
 }
