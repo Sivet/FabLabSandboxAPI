@@ -19,21 +19,21 @@ namespace FabLabSandboxAPI.Data
         {
              var makerSpaces = new List<MakerSpace>
             {
-                 new MakerSpace{Id=0, name="FabLab UCL"},
-                 new MakerSpace{Id=2, name="BackYardMakerSpace"},
-                 new MakerSpace { Id = 3, name = "A Third one"}
+                 new MakerSpace{Id=0, Name="FabLab UCL"},
+                 new MakerSpace{Id=2, Name="BackYardMakerSpace"},
+                 new MakerSpace { Id = 3, Name = "A Third one"}
         };
             return makerSpaces;
         }
 
         public MakerSpace GetMakerSpaceById(int id)
         {
-            return new MakerSpace{Id=0, name="FabLab UCL"};
+            return new MakerSpace{Id=0, Name="FabLab UCL"};
         }
 
         public MakerSpace GetMakerSpaceByName(string name)
         {
-            return new MakerSpace{Id=0, name="FabLab UCL"};
+            return new MakerSpace{Id=0, Name="FabLab UCL"};
         }
 
         public bool SaveChanges()

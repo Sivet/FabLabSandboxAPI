@@ -39,7 +39,7 @@ namespace FabLabSandboxAPI.Data
 
         public MakerSpace GetMakerSpaceByName(string name)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.name == name);
+            return _context.MakerSpaces.FirstOrDefault(p => p.Name == name);
             //throw new System.NotImplementedException();
         }
 
