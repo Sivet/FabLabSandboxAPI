@@ -1,10 +1,14 @@
 using Xunit;
+using Moq;
+using FabLabSandboxAPI.Data;
+using FabLabSandboxAPI.Controllers;
 
 public class testClass{
     [Fact]
     public void GetMakerSpaceTest(){
     // Arrange
-    //var mockRepo = 
+    //var mockRepo = new Mock<IMakerSpaceRepo>();
+    //mockRepo.Setup
     /*var mockRepo = new Mock<IBrainstormSessionRepository>();
     mockRepo.Setup(repo => repo.ListAsync()).ReturnsAsync(GetTestSessions());
     var controller = new HomeController(mockRepo.Object);
