@@ -6,9 +6,22 @@ namespace FabLabSandboxAPI.Models
     {
         [Key]
         public int Id { get; set; }
-        
+
         [Required]
         [MaxLength(250)]
-        public string name { get; set; }
+        public string Name { get; set; }
+
+        [Required]
+        [MaxLength(4)]
+        public string PostCode { get; set;}
+
+        [Required]
+        [MaxLength(100)]
+        public string Street { get; set; }
+
+        [Required]
+        [MaxLength(250)]
+        public string City { get; set; }
+
     }
 }
