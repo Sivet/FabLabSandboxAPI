@@ -27,7 +27,7 @@ namespace FabLabSandboxAPI.Models
 
         public ICollection<Machine> Machines { get; set; }
 
-        public bool IsAccepted { get; set; }
+        public bool? IsAccepted{ get; set; } = false;
 
     }
 }
