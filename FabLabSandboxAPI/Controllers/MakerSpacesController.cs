@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.JsonPatch;
 namespace FabLabSandboxAPI.Controllers
 {
 
-//her er en kommentar
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
     [ApiController]
     [Route("api/MakerSpaces")]
