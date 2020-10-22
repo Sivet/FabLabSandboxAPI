@@ -10,7 +10,6 @@ namespace FabLabSandboxAPI.Controllers
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
     [ApiController]
     [Route("api/MakerSpaces")]
-
     public class MakerSpacesController : ControllerBase
     {
         private readonly IMakerSpaceRepo _repo;
