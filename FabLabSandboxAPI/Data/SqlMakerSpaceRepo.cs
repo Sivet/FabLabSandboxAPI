@@ -45,6 +45,8 @@ namespace FabLabSandboxAPI.Data
 
         public void UpdateMakerSpace(MakerSpace space)
         {
+
+            
             //check optimistic concurrency!!!
            // if(space == null){
              //   throw new ArgumentNullException(nameof(space));

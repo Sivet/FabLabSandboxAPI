@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Reflection;
 using System.IO;
+using Newtonsoft.Json.Serialization;
 
 namespace FabLabSandboxAPI
 {
@@ -33,8 +34,13 @@ namespace FabLabSandboxAPI
             services.AddDbContext<MakerSpaceContext>(opt => opt.UseSqlServer(
                 Configuration.GetConnectionString("MakerSpaceConnection")));
 
-            services.AddControllers();
+//            services.AddControllers();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddControllers().AddNewtonsoftJson(s =>
+                       {
+                           s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                       });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>();
@@ -47,9 +53,9 @@ namespace FabLabSandboxAPI
                     Description = "Swagger for show endpoints and propertis needed for Api",
                     Version = "v1"
                 });
-               var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
-                opt.IncludeXmlComments(filePath,true);
+                opt.IncludeXmlComments(filePath, true);
             });
         }
 
@@ -75,7 +81,7 @@ namespace FabLabSandboxAPI
             app.UseSwaggerUI(opt =>
            {
                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger for FabLab");
-               opt.RoutePrefix ="";
+               opt.RoutePrefix = "";
            }
            );
         }

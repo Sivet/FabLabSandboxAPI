@@ -4,10 +4,11 @@ using FabLabSandboxAPI.Models;
 using FabLabSandboxAPI.Data;
 using AutoMapper;
 using FabLabSandboxAPI.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace FabLabSandboxAPI.Controllers
 {
-    
+
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
     [ApiController]
     [Route("api/MakerSpaces")]
@@ -59,6 +60,47 @@ namespace FabLabSandboxAPI.Controllers
             var makerSpaceReadDto = _mapper.Map<MakerSpaceReadDto>(makerSpaceModel);
 
             return CreatedAtRoute(nameof(GetMakerSpaceById), new { Id = makerSpaceReadDto.Id }, makerSpaceReadDto);
+        }
+
+        ///<summary> This PUT method update MakerSpace in DB </summary>
+        [HttpPut("{id}")]
+        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        {
+            var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
+            if (MakerSpaceModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(MakerSpaceCreateDto, MakerSpaceModelFromRepo);
+            _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
+            _repo.SaveChanges();
+
+            return NoContent();
+        }
+
+        /// <summary> This PUT method purtial update MakerSpace (not all but some colons in tabel in DB </summary>
+        //Purtial update
+        //PATCH api/MakerSpace/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceCreateDto> patchDoc)
+        {
+            var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
+            if (MakerSpaceModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            var MakerSpaceToPatch = _mapper.Map<MakerSpaceCreateDto>(MakerSpaceModelFromRepo);
+            patchDoc.ApplyTo(MakerSpaceToPatch, ModelState);
+            if (!TryValidateModel(MakerSpaceToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(MakerSpaceToPatch, MakerSpaceModelFromRepo);
+            _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
+            _repo.SaveChanges();
+
+            return NoContent();
         }
 
         /// <summary> This DELETE method delete MakerSpace from DB </summary>
