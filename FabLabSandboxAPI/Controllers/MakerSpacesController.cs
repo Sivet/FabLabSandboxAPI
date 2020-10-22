@@ -7,6 +7,7 @@ using FabLabSandboxAPI.Dtos;
 
 namespace FabLabSandboxAPI.Controllers
 {
+    
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
     [ApiController]
     [Route("api/MakerSpaces")]
@@ -60,6 +61,7 @@ namespace FabLabSandboxAPI.Controllers
 
             return CreatedAtRoute(nameof(GetMakerSpaceById), new { Id = makerSpaceReadDto.Id }, makerSpaceReadDto);
         }
+
         /// <summary> This DELETE method delete MakerSpace from DB </summary>
         [HttpDelete("{id}")]
         public ActionResult DeleteMakerSpace(int id)

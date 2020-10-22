@@ -9,5 +9,7 @@ namespace FabLabSandboxAPI.Data
             
         }
         public DbSet<MakerSpace> MakerSpaces {get; set;}
+        public DbSet<Machine> Machines {get; set;}
+
     }
 }
