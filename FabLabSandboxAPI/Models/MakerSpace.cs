@@ -7,7 +7,7 @@ namespace FabLabSandboxAPI.Models
     {
       
         [Key]
-        public int MakerSpaceId { get; set; }
+        public int Id { get; set; }
         [Required]
         [MaxLength(250)]
         public string MakerSpaceName { get; set; }
