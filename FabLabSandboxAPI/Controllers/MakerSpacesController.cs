@@ -64,7 +64,7 @@ namespace FabLabSandboxAPI.Controllers
 
         ///<summary> This PUT method update MakerSpace in DB </summary>
         [HttpPut("{id}")]
-        public ActionResult UpdateMakerSpace(int id, MakerSpaceUpdateDto MakerSpaceUpdateDto)
+        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
         {
             var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
             if (MakerSpaceModelFromRepo == null)
@@ -72,7 +72,7 @@ namespace FabLabSandboxAPI.Controllers
                 return NotFound();
             }
 
-            _mapper.Map(MakerSpaceUpdateDto, MakerSpaceModelFromRepo);
+            _mapper.Map(MakerSpaceCreateDto, MakerSpaceModelFromRepo);
             _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
             _repo.SaveChanges();
 

@@ -16,6 +16,7 @@ using AutoMapper;
 using System.Reflection;
 using System.IO;
 using Newtonsoft.Json.Serialization;
+using FabLabSandboxAPI.Data.MachineData;
 
 namespace FabLabSandboxAPI
 {
@@ -44,6 +45,7 @@ namespace FabLabSandboxAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>();
+            services.AddScoped<IMachineRepo, SqlMachineRepo>();
             services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1",
