@@ -30,7 +30,6 @@ namespace FabLabSandboxAPITest
 
             var controller = new MakerSpacesController(_mockRepo.Object, _mockMapper.Object);
             // Act
-
             var result = controller.GetAllMakerSpaces();
 
             // Assert
