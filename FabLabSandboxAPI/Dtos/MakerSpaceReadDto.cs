@@ -22,10 +22,13 @@ namespace FabLabSandboxAPI.Dtos
         [MaxLength(100)]
         public string Street { get; set; }
 
-        /// <summary>City for create MakerSpase - Required fielddoc</summary>
+        /// <summary>City for create MakerSpase - Required field</summary>
         [Required]
         [MaxLength(250)]
         public string City { get; set; }
+
+        /// <summary>MakerSpace accepted by Admin or not</summary>
+        public bool IsAccepted { get; set; }
 
     }
 }

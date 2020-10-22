@@ -3,14 +3,16 @@ using FabLabSandboxAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FabLabSandboxAPI.Migrations
 {
     [DbContext(typeof(MakerSpaceContext))]
-    partial class MakerSpaceContextModelSnapshot : ModelSnapshot
+    [Migration("20201021184629_DefaultValueAttempt")]
+    partial class DefaultValueAttempt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,35 +20,9 @@ namespace FabLabSandboxAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Machine", b =>
-                {
-                    b.Property<int>("MachineId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MachineDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MachineName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.Property<int>("MakerSpaceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MachineId");
-
-                    b.HasIndex("MakerSpaceId");
-
-                    b.ToTable("Machines");
-                });
-
             modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpace", b =>
                 {
-                    b.Property<int>("MakerSpaceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -56,38 +32,29 @@ namespace FabLabSandboxAPI.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("MakerSpaceCity")
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("MakerSpaceName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("MakerSpacePostCode")
+                    b.Property<string>("PostCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(4)")
                         .HasMaxLength(4);
 
-                    b.Property<string>("MakerSpaceStreet")
+                    b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.HasKey("MakerSpaceId");
+                    b.HasKey("Id");
 
                     b.ToTable("MakerSpaces");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Machine", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.MakerSpace", "MakerSpace")
-                        .WithMany("Machines")
-                        .HasForeignKey("MakerSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
