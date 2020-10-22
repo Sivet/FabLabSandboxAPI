@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FabLabSandboxAPI.Models
@@ -6,22 +7,24 @@ namespace FabLabSandboxAPI.Models
     {
       
         [Key]
-        public int Id { get; set; }
+        public int MakerSpaceId { get; set; }
         [Required]
         [MaxLength(250)]
-        public string Name { get; set; }
+        public string MakerSpaceName { get; set; }
    
         [Required]
         [MaxLength(4)]
-        public string PostCode { get; set; }
+        public string MakerSpacePostCode { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Street { get; set; }
+        public string MakerSpaceStreet { get; set; }
 
         [Required]
         [MaxLength(250)]
-        public string City { get; set; }
+        public string MakerSpaceCity { get; set; }
+
+        public ICollection<Machine> Machines { get; set; }
 
         public bool IsAccepted{ get; set; }
 

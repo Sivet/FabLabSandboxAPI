@@ -33,19 +33,25 @@ namespace FabLabSandboxAPI.Data
 
         public MakerSpace GetMakerSpaceById(int id)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.Id == id);
+            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceId == id);
             //throw new System.NotImplementedException();
         }
 
         public MakerSpace GetMakerSpaceByName(string name)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.Name == name);
+            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceName == name);
             //throw new System.NotImplementedException();
         }
 
         public void UpdateMakerSpace(MakerSpace space)
         {
-            
+            //check optimistic concurrency!!!
+           // if(space == null){
+             //   throw new ArgumentNullException(nameof(space));
+           // }
+           // _context.Add(space);
+             //   _context.Entry(space).OriginalValues["RowVersion"] = space.RowVersion;
+
         }
 
         public void DeleteMakerSpace(MakerSpace space)

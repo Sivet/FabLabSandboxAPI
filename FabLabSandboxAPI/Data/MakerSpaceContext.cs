@@ -9,6 +9,7 @@ namespace FabLabSandboxAPI.Data
             
         }
         public DbSet<MakerSpace> MakerSpaces {get; set;}
+        public DbSet<Machine> Machines {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             modelBuilder.Entity<MakerSpace>()
