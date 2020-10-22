@@ -1,122 +1,121 @@
-/*using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using FabLabSandboxAPI.Models;
-using FabLabSandboxAPI.Data;
+using FabLabSandboxAPI.Data.MachineData;
 using AutoMapper;
-using FabLabSandboxAPI.Dtos;
+using FabLabSandboxAPI.Dtos.MachineDto;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace FabLabSandboxAPI.Controllers
 {
 
-    /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
+    /// <summary>Controller responsible for GET/POST/DELETE for managing Machine </summary>
     [ApiController]
-    [Route("api/MakerSpaces")]
-    public class MakerSpacesController : ControllerBase
+    [Route("api/Machine")]
+    public class MachineController : ControllerBase
     {
-        private readonly IMakerSpaceRepo _repo;
+        private readonly IMachineRepo _repo;
         private readonly IMapper _mapper;
 
-        public MakerSpacesController(IMakerSpaceRepo repo, IMapper mapper)
+        public MachineController(IMachineRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
         }
-        /// <summary>This GET method returns all MakerSpaces from DB</summary>
+        /// <summary>This GET method returns all Machine from DB</summary>
         /// <returns>An arrey of MakerSpases</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<MakerSpaceReadDto>> GetAllMakerSpaces()
+        public ActionResult<IEnumerable<MachineReadDto>> GetAllMachine()
         {
-            var makerSpaces = _repo.GetAllMakerSpaces();
-            return Ok(_mapper.Map<IEnumerable<MakerSpaceReadDto>>(makerSpaces));
+            var Machine = _repo.GetAllMachines();
+            return Ok(_mapper.Map<IEnumerable<MachineReadDto>>(Machine));
         }
-        /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its ID </summary>
+        /// <summary> This GET method returns search in DB and returns Machine from DB by its ID </summary>
         /// <returns>An MakerSpase</returns>
-        [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
-        public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(int id)
+        [HttpGet("{id}", Name = "GetMachineById")] //Named so the Post can use it
+        public ActionResult<MachineReadDto> GetMachineById(int id)
         {
-            var makerSpace = _repo.GetMakerSpaceById(id);
-            return Ok(_mapper.Map<MakerSpaceReadDto>(makerSpace));
+            var Machine = _repo.GetMachineById(id);
+            return Ok(_mapper.Map<MachineReadDto>(Machine));
         }
 
-        /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>
+        /// <summary> This GET method returns search in DB and returns Machine from DB by its name </summary>
         /// <returns>An MakerSpase</returns>
         [HttpGet("name/{name}")]
-        public ActionResult<MakerSpaceReadDto> GetMakerSpaceByName(string name)
+        public ActionResult<MachineReadDto> GetMachineByName(string name)
         {
-            var makerSpace = _repo.GetMakerSpaceByName(name);
-            return Ok(_mapper.Map<MakerSpaceReadDto>(makerSpace));
+            var Machine = _repo.GetMachineByName(name);
+            return Ok(_mapper.Map<MachineReadDto>(Machine));
         }
 
-        /// <summary> This POST method create MakerSpace in DB </summary>
-        /// <returns>returns createt MacerSpase url -/api/MakerSpaces/{created} </returns>
+        /// <summary> This POST method create Machine in DB </summary>
+        /// <returns>returns createt MacerSpase url -/api/Machine/{created} </returns>
         [HttpPost]
-        public ActionResult<MakerSpaceReadDto> CreateMakerSpace(MakerSpaceCreateDto createDto)
+        public ActionResult<MachineReadDto> CreateMachine(MachineCreateDto createDto)
         {
-            var makerSpaceModel = _mapper.Map<MakerSpace>(createDto);
-            _repo.CreateMakerSpace(makerSpaceModel);
+            var MachineModel = _mapper.Map<Machine>(createDto);
+            _repo.CreateMachine(MachineModel);
             _repo.SaveChanges();
 
-            var makerSpaceReadDto = _mapper.Map<MakerSpaceReadDto>(makerSpaceModel);
+            var MachineReadDto = _mapper.Map<MachineReadDto>(MachineModel);
 
-            return CreatedAtRoute(nameof(GetMakerSpaceById), new { Id = makerSpaceReadDto.Id }, makerSpaceReadDto);
+            return CreatedAtRoute(nameof(GetMachineById), new { Id = MachineReadDto.MachineId }, MachineReadDto);
         }
 
-        ///<summary> This PUT method update MakerSpace in DB </summary>
+        ///<summary> This PUT method update Machine in DB </summary>
         [HttpPut("{id}")]
-        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        public ActionResult UpdateMachine(int id, MachineCreateDto MachineCreateDto)
         {
-            var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
-            if (MakerSpaceModelFromRepo == null)
+            var MachineModelFromRepo = _repo.GetMachineById(id);
+            if (MachineModelFromRepo == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(MakerSpaceCreateDto, MakerSpaceModelFromRepo);
-            _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
+            _mapper.Map(MachineCreateDto, MachineModelFromRepo);
+            _repo.UpdateMachine(MachineModelFromRepo);
             _repo.SaveChanges();
 
             return NoContent();
         }
 
-        /// <summary> This PUT method purtial update MakerSpace (not all but some colons in tabel in DB </summary>
+        /// <summary> This PUT method purtial update Machine (not all but some colons in tabel in DB </summary>
         //Purtial update
-        //PATCH api/MakerSpace/{id}
+        //PATCH api/Machine/{id}
         [HttpPatch("{id}")]
-        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceCreateDto> patchDoc)
+        public ActionResult PartialMachineUpdate(int id, JsonPatchDocument<MachineCreateDto> patchDoc)
         {
-            var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
-            if (MakerSpaceModelFromRepo == null)
+            var MachineModelFromRepo = _repo.GetMachineById(id);
+            if (MachineModelFromRepo == null)
             {
                 return NotFound();
             }
-            var MakerSpaceToPatch = _mapper.Map<MakerSpaceCreateDto>(MakerSpaceModelFromRepo);
-            patchDoc.ApplyTo(MakerSpaceToPatch, ModelState);
-            if (!TryValidateModel(MakerSpaceToPatch))
+            var MachineToPatch = _mapper.Map<MachineCreateDto>(MachineModelFromRepo);
+            patchDoc.ApplyTo(MachineToPatch, ModelState);
+            if (!TryValidateModel(MachineToPatch))
             {
                 return ValidationProblem(ModelState);
             }
-            _mapper.Map(MakerSpaceToPatch, MakerSpaceModelFromRepo);
-            _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
+            _mapper.Map(MachineToPatch, MachineModelFromRepo);
+            _repo.UpdateMachine(MachineModelFromRepo);
             _repo.SaveChanges();
 
             return NoContent();
         }
 
-        /// <summary> This DELETE method delete MakerSpace from DB </summary>
+        /// <summary> This DELETE method delete Machine from DB </summary>
         [HttpDelete("{id}")]
-        public ActionResult DeleteMakerSpace(int id)
+        public ActionResult DeleteMachine(int id)
         {
-            var makerSpaceModel = _repo.GetMakerSpaceById(id);
-            if (makerSpaceModel == null)
+            var MachineModel = _repo.GetMachineById(id);
+            if (MachineModel == null)
             {
                 return NotFound();
             }
-            _repo.DeleteMakerSpace(makerSpaceModel);
+            _repo.DeleteMachine(MachineModel);
             _repo.SaveChanges();
             return NoContent();
         }
 
     }
 }
-*/

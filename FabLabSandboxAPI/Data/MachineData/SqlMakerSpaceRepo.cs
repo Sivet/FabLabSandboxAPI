@@ -1,15 +1,16 @@
-/*using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using FabLabSandboxAPI.Models;
 
-namespace FabLabSandboxAPI.Data
+namespace FabLabSandboxAPI.Data.MachineData
 {
     public class SqlMachineRepo : IMachineRepo
     {
         private readonly MakerSpaceContext _context;
 
-        public SqlMakerSpaceRepo(MakerSpaceContext context)
+        public SqlMachineRepo(MakerSpaceContext context)
         {
             _context = context;
         }
@@ -17,7 +18,7 @@ namespace FabLabSandboxAPI.Data
         {
             return (_context.SaveChanges() >= 0);
         }
-        public void CreateMakerSpace(MakerSpace space)
+        public void CreateMachine(Machine space)
         {
             if(space == null){
                 throw new ArgumentNullException(nameof(space));
@@ -25,25 +26,26 @@ namespace FabLabSandboxAPI.Data
             _context.Add(space);
         }
 
-        public IEnumerable<MakerSpace> GetAllMakerSpaces()
+        public IEnumerable<Machine> GetAllMachines()
         {
-            return _context.MakerSpaces.ToList();
+
+            return _context.Machines.ToList();
             //throw new System.NotImplementedException();
         }
 
-        public MakerSpace GetMakerSpaceById(int id)
+        public Machine GetMachineById(int id)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.Id == id);
+            return _context.Machines.FirstOrDefault(p => p.MachineId == id);
             //throw new System.NotImplementedException();
         }
 
-        public MakerSpace GetMakerSpaceByName(string name)
+        public Machine GetMachineByName(string name)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceName == name);
+            return _context.Machines.FirstOrDefault(p => p.MachineName == name);
             //throw new System.NotImplementedException();
         }
 
-        public void UpdateMakerSpace(MakerSpace space)
+        public void UpdateMachine(Machine space)
         {
 
             
@@ -56,13 +58,13 @@ namespace FabLabSandboxAPI.Data
 
         }
 
-        public void DeleteMakerSpace(MakerSpace space)
+        public void DeleteMachine(Machine space)
         {
              if (space==null)
             {
                 throw new ArgumentNullException(nameof(space));
             }
-            _context.MakerSpaces.Remove(space);
+            _context.Machines.Remove(space);
         }
     }
-}*/
+}

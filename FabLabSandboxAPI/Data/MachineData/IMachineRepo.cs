@@ -1,7 +1,7 @@
-/*using System.Collections.Generic;
-//using FabLabSandboxAPI.Models;
+using System.Collections.Generic;
+using FabLabSandboxAPI.Models;
 
-namespace FabLabSandboxAPI.Data.Machine
+namespace FabLabSandboxAPI.Data.MachineData
 {
     public interface IMachineRepo
     {
@@ -14,4 +14,3 @@ namespace FabLabSandboxAPI.Data.Machine
         void DeleteMachine(Machine space);
     }
 }
-*/
