@@ -77,8 +77,7 @@ namespace FabLabSandboxAPI
                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger for FabLab");
                opt.RoutePrefix ="";
            }
-
-            );
+           );
         }
     }
 }
