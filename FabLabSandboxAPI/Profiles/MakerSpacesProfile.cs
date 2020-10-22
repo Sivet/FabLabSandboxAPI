@@ -14,6 +14,7 @@ namespace FabLabSandboxAPI.Profiles
             CreateMap<MakerSpaceCreateDto, MakerSpace>();
 
             CreateMap<MakerSpaceUpdateDto, MakerSpace>();
+            CreateMap<MakerSpace, MakerSpaceUpdateDto>();
         }
     }
 }
