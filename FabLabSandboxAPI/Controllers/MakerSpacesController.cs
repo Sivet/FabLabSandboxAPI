@@ -64,7 +64,7 @@ namespace FabLabSandboxAPI.Controllers
 
         ///<summary> This PUT method update MakerSpace in DB </summary>
         [HttpPut("{id}")]
-        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        public ActionResult UpdateMakerSpace(int id, MakerSpaceUpdateDto MakerSpaceUpdateDto)
         {
             var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
             if (MakerSpaceModelFromRepo == null)
@@ -72,7 +72,7 @@ namespace FabLabSandboxAPI.Controllers
                 return NotFound();
             }
 
-            _mapper.Map(MakerSpaceCreateDto, MakerSpaceModelFromRepo);
+            _mapper.Map(MakerSpaceUpdateDto, MakerSpaceModelFromRepo);
             _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
             _repo.SaveChanges();
 
@@ -83,14 +83,14 @@ namespace FabLabSandboxAPI.Controllers
         //Purtial update
         //PATCH api/MakerSpace/{id}
         [HttpPatch("{id}")]
-        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceCreateDto> patchDoc)
+        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc)
         {
             var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
             if (MakerSpaceModelFromRepo == null)
             {
                 return NotFound();
             }
-            var MakerSpaceToPatch = _mapper.Map<MakerSpaceCreateDto>(MakerSpaceModelFromRepo);
+            var MakerSpaceToPatch = _mapper.Map<MakerSpaceUpdateDto>(MakerSpaceModelFromRepo);
             patchDoc.ApplyTo(MakerSpaceToPatch, ModelState);
             if (!TryValidateModel(MakerSpaceToPatch))
             {
