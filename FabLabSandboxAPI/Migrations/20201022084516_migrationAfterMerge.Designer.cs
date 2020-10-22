@@ -3,14 +3,16 @@ using FabLabSandboxAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FabLabSandboxAPI.Migrations
 {
     [DbContext(typeof(MakerSpaceContext))]
-    partial class MakerSpaceContextModelSnapshot : ModelSnapshot
+    [Migration("20201022084516_migrationAfterMerge")]
+    partial class migrationAfterMerge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
