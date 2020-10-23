@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Reflection;
 using System.IO;
+using Microsoft.EntityFrameworkCore.InMemory;
 
 namespace FabLabSandboxAPI
 {
@@ -38,6 +39,7 @@ namespace FabLabSandboxAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>();
+
             services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1",
