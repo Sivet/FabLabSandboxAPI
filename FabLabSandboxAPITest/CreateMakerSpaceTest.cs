@@ -3,6 +3,7 @@ using FabLabSandboxAPI.Controllers;
 using FabLabSandboxAPI.Data;
 using FabLabSandboxAPI.Dtos;
 using FabLabSandboxAPI.Models;
+using FabLabSandboxAPI.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Frameworks;
 using System;
@@ -20,8 +21,46 @@ namespace FabLabSandboxAPITest
 {
     public class CreateMakerSpaceTest
     {
-        //Problem: can't access mapper or repo, wrong approach?
+        MakerSpacesController _controller;
+        IMakerSpaceRepo _repo;
+
+        public CreateMakerSpaceTest(){
+            var profile = new MakerSpacesProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
+            var mapper = new Mapper(configuration);
+
+            _repo = new MockRepo();
+            _controller = new MakerSpacesController(_repo, mapper);
+            
+        }
         [Fact]
+        public void GetAllMakerSpaces_Valid(){
+            var result = _controller.GetAllMakerSpaces();
+
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void GetMakerSpaceById_Valid(int id){
+            var result = _controller.GetMakerSpaceById(id);
+
+            Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(result.Value.Id, id);
+        }
+        [Theory]
+        [InlineData("FabLab UCL")]
+        [InlineData("BackYardMakerSpace")]
+        [InlineData("A Third one")]
+        public void GetMakerSpaceByName_Valid(string name){
+            var result = _controller.GetMakerSpaceByName(name);
+
+            Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(result.Value.Name, name);
+        }
+        //Problem: can't access mapper or repo, wrong approach?
+        /*[Fact]
         public void GetAllMakerSpacesTest()
         {
             //ARRANGE
@@ -71,6 +110,6 @@ namespace FabLabSandboxAPITest
 
             //ASSERT
             Assert.Equal(result.Value.PostCode, postalCodes[1]);
-        }
+        }*/
     }
 }
