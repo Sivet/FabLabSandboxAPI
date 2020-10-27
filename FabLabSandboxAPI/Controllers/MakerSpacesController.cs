@@ -83,14 +83,14 @@ namespace FabLabSandboxAPI.Controllers
         //Purtial update
         //PATCH api/MakerSpace/{id}
         [HttpPatch("{id}")]
-        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceCreateDto> patchDoc)
+        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc)
         {
             var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
             if (MakerSpaceModelFromRepo == null)
             {
                 return NotFound();
             }
-            var MakerSpaceToPatch = _mapper.Map<MakerSpaceCreateDto>(MakerSpaceModelFromRepo);
+            var MakerSpaceToPatch = _mapper.Map<MakerSpaceUpdateDto>(MakerSpaceModelFromRepo);
             patchDoc.ApplyTo(MakerSpaceToPatch, ModelState);
             if (!TryValidateModel(MakerSpaceToPatch))
             {
