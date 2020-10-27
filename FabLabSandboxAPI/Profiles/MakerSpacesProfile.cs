@@ -16,15 +16,12 @@ namespace FabLabSandboxAPI.Profiles
 
             CreateMap<MakerSpaceUpdateDto, MakerSpace>();
             CreateMap<MakerSpace, MakerSpaceUpdateDto>();
-<<<<<<< HEAD
             CreateMap<MakerSpace, MakerSpaceIdReadDto>();
 
             CreateMap<Machine,MachineReadDto>();
             CreateMap<MachineCreateDto,Machine>();
 
 
-=======
->>>>>>> MachineController
         }
     }
 }
