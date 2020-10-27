@@ -79,7 +79,7 @@ namespace FabLabSandboxAPI.Controllers
             return NoContent();
         }
 
-        /// <summary> This PUT method purtial update MakerSpace (not all but some colons in tabel in DB </summary>
+        /// <summary> This PUT method partial update MakerSpace (not all but some columns in tabel in DB </summary>
         //Purtial update
         //PATCH api/MakerSpace/{id}
         [HttpPatch("{id}")]
