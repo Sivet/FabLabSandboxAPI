@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FabLabSandboxAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FabLabSandboxAPI.Data.MachineData
 {
@@ -29,7 +30,7 @@ namespace FabLabSandboxAPI.Data.MachineData
         public IEnumerable<Machine> GetAllMachines()
         {
 
-            return _context.Machines.ToList();
+            return _context.Machines.Include(x => x.MakerSpace).ToList();
             //throw new System.NotImplementedException();
         }
 

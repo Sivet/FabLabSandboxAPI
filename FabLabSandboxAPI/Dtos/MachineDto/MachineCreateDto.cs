@@ -9,15 +9,16 @@ namespace FabLabSandboxAPI.Dtos.MachineDto
         [Required]
         [MaxLength(150)]
         public string MachineName { get; set; }
-       
-       /* [Required]
-        public string MachineSerialNumber { get; set; }*/
+
+        /* [Required]
+         public string MachineSerialNumber { get; set; }*/
 
         [Required]
         public string MachineDescription { get; set; }
 
-       [Required]
-        public MakerSpace MakerSpace { get; set; }
+        [Required]
+        public int MakerSpaceId { get; set; }
+
 
     }
 }

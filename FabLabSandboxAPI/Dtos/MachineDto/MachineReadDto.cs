@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 namespace FabLabSandboxAPI.Dtos.MachineDto
 {
-     [JsonObject]
     public class MachineReadDto
     {
 
@@ -14,14 +13,15 @@ namespace FabLabSandboxAPI.Dtos.MachineDto
         [Required]
         [MaxLength(150)]
         public string MachineName { get; set; }
-       
+
         /*[Required]
         public string MachineSerialNumber { get; set; }*/
 
         [Required]
         public string MachineDescription { get; set; }
 
-       [Required]
-        public MakerSpace MakerSpace { get; set; }
+        [Required]
+        public MakerSpaceIdReadDto MakerSpace { get; set; }
+
     }
 }

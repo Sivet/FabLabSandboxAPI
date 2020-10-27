@@ -28,7 +28,8 @@ namespace FabLabSandboxAPI.Controllers
         public ActionResult<IEnumerable<MachineReadDto>> GetAllMachine()
         {
             var Machine = _repo.GetAllMachines();
-            return Ok(_mapper.Map<IEnumerable<MachineReadDto>>(Machine));
+            var viewmodels = _mapper.Map<IEnumerable<MachineReadDto>>(Machine);
+            return Ok(viewmodels);
         }
         /// <summary> This GET method returns search in DB and returns Machine from DB by its ID </summary>
         /// <returns>An MakerSpase</returns>
