@@ -8,7 +8,7 @@ on:
 
 env:
   webAppPackagePath: './published'
-  webAppName: 'FabLabSandboxAPI'
+  webAppName: 'FabLabSandbox' #name of azure webapp
 
 jobs:
   build:
