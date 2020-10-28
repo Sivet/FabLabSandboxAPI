@@ -45,9 +45,11 @@ namespace FabLabSandboxAPI
                        });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>(); //maybe not needed
-            services.AddScoped<IMachineRepo, SqlMachineRepo>();       //maybe not needed
+            services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>(); // needed
+            services.AddScoped<IMachineRepo, SqlMachineRepo>();       // needed
             services.AddScoped<MakerSpacesService>();
+            services.AddScoped<MachineService>();
+
             services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1",
