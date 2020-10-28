@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FabLabSandboxAPI.Data;
+using FabLabSandboxAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,8 +45,9 @@ namespace FabLabSandboxAPI
                        });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>();
-            services.AddScoped<IMachineRepo, SqlMachineRepo>();
+            services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>(); //maybe not needed
+            services.AddScoped<IMachineRepo, SqlMachineRepo>();       //maybe not needed
+            services.AddScoped<MakerSpacesService>();
             services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1",
