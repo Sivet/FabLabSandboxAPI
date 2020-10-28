@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  webAppPackagePath: './published'
+  webAppName: 'FabLabSandboxAPI'
+
 jobs:
   build:
 
@@ -23,3 +27,11 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Publish
+      run: dotnet publish --configurantion Release --no-build --output ${{ env.webAppPackagePath }}
+    -name: Deploy
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.webAppName }}
+        publish-profile: ${{ secrets.PUBLISHSETTINGS }}
+        package: ${{ env.webAppPackagePath }}
