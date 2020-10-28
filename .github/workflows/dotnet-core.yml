@@ -28,7 +28,7 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Publish
-      run: dotnet publish --configurantion Release --no-build --output ${{ env.webAppPackagePath }}
+      run: dotnet publish --configuration Release --no-build --output ${{ env.webAppPackagePath }}
     - name: Deploy
       uses: azure/webapps-deploy@v2
       with:
