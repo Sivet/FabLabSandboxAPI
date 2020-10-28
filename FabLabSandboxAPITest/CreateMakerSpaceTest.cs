@@ -2,7 +2,9 @@ using AutoMapper;
 using FabLabSandboxAPI.Controllers;
 using FabLabSandboxAPI.Data;
 using FabLabSandboxAPI.Dtos;
+using FabLabSandboxAPI.Profiles;
 using FabLabSandboxAPI.Models;
+using FabLabSandboxAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Frameworks;
 using System;
@@ -16,24 +18,43 @@ namespace FabLabSandboxAPITest
 {
     public class CreateMakerSpaceTest
     {
-        //Problem: can't access mapper or repo, wrong approach?
+        //MakerSpacesController _controller;
+        IMakerSpaceRepo _repo;
+        MakerSpacesService _service;
+
+        public CreateMakerSpaceTest(){
+            var profile = new MakerSpacesProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
+            var mapper = new Mapper(configuration);
+
+            _repo = new MockRepo();
+            _service = new MakerSpacesService(_repo, mapper);
+            //_controller = new MakerSpacesController(_service);
+            
+        }
         [Fact]
-        public void GetAllMakerSpacesTest()
-        {
-            //_mapper = Mapper of the controller
-            //Arrange
-            var _mockRepo = new Mock<IMakerSpaceRepo>();
-            _mockRepo.Setup(x => x.GetAllMakerSpaces());
+        public void GetAllMakerSpaces_Valid(){
+            var result = _service.GetAllMakerSpaces();
 
-            var _mockMapper = new Mock<IMapper>();
-            _mockMapper.Setup(_ => _.Map<IEnumerable<MakerSpaceReadDto>>(_mockRepo.Setup(x => x.GetAllMakerSpaces())));
+            Assert.Equal(1, 1);
+        }
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void GetMakerSpaceById_Valid(int id){
+            var result = _service.GetMakerSpaceById(id);
 
-            var controller = new MakerSpacesController(_mockRepo.Object, _mockMapper.Object);
-            // Act
-            var result = controller.GetAllMakerSpaces();
+            Assert.Equal(result.Id, id);
+        }
+        [Theory]
+        [InlineData("FabLab UCL")]
+        [InlineData("BackYardMakerSpace")]
+        [InlineData("A Third one")]
+        public void GetMakerSpaceByName_Valid(string name){
+            var result = _service.GetMakerSpaceByName(name);
 
-            // Assert
-            Assert.NotNull(result);
+            Assert.Equal(result.MakerSpaceName, name);
         }
     }
 }
