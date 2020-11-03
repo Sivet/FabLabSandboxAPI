@@ -16,6 +16,7 @@ using ExcelDataReader;
 using System.IO;
 using Microsoft.EntityFrameworkCore.Update;
 using System.Data;
+using System.Linq;
 
 namespace FabLabSandboxAPITest
 {
@@ -59,6 +60,32 @@ namespace FabLabSandboxAPITest
             Assert.IsType<OkObjectResult>(result.Result);
             Assert.Equal(result.Value.Name, name);
         }
+
+        //Makes no sense: TODO, test authentication.
+        //[Fact]
+        //public void GetMakerSpaceByPostal_Verify()
+        //{
+        //    //Arrange
+        //    var result = _controller.GetAllMakerSpaces();
+
+
+        //    //ACT
+        //    //Postal Code list from spreadsheet.
+        //    List<string> postalCodes = new List<string>();
+
+        //    //Read from spreadsheet and store in list.
+        //    var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
+        //    while (!reader.EndOfStream)
+        //    {
+        //        var line = reader.ReadLine();
+        //        postalCodes.Add(line.Split(';')[0]);
+        //    }
+        //    postalCodes.RemoveAt(0);
+
+        //    //Assert
+        //    Assert.Contains(result.Result, postalCodes[0]);
+
+        //}
         //Problem: can't access mapper or repo, wrong approach?
         /*[Fact]
         public void GetAllMakerSpacesTest()
