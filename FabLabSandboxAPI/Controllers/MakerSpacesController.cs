@@ -1,16 +1,19 @@
 using System.Collections.Generic;
+using FabLabSandboxAPI.Authorization.AuthServises;
 using Microsoft.AspNetCore.Mvc;
 using FabLabSandboxAPI.Services;
 //using FabLabSandboxAPI.Models;
 //using FabLabSandboxAPI.Data;
 //using AutoMapper;
 using FabLabSandboxAPI.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace FabLabSandboxAPI.Controllers
-{
-
+{ 
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
+ 
+  //[Authorize]
     [ApiController]
     [Route("api/MakerSpaces")]
     public class MakerSpacesController : ControllerBase
@@ -32,7 +35,8 @@ namespace FabLabSandboxAPI.Controllers
         }
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its ID </summary>
         /// <returns>An MakerSpase</returns>
-        [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
+         [Authorize(Roles = UserRoles.Admin)]
+         [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(int id)
         {
             return Ok(_service.GetMakerSpaceById(id));
@@ -40,6 +44,7 @@ namespace FabLabSandboxAPI.Controllers
 
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>
         /// <returns>An MakerSpase</returns>
+       
         [HttpGet("name/{name}")]
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceByName(string name)
         {
