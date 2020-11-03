@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75D0C81F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabLabSandboxAPITest", "FabLabSandboxAPITest\FabLabSandboxAPITest.csproj", "{B32C7B96-47E3-406D-93F3-B59ACD8942A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT_Authentication", "JWT_Authentication\JWT_Authentication.csproj", "{0FB331BE-375C-44B1-9CD1-00A964AA5B5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationApi", "AuthorizationApi\AuthorizationApi.csproj", "{3ADC472E-9428-44B6-BE70-CC619432A5DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,10 @@ Global
 		{B32C7B96-47E3-406D-93F3-B59ACD8942A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B32C7B96-47E3-406D-93F3-B59ACD8942A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B32C7B96-47E3-406D-93F3-B59ACD8942A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FB331BE-375C-44B1-9CD1-00A964AA5B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FB331BE-375C-44B1-9CD1-00A964AA5B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FB331BE-375C-44B1-9CD1-00A964AA5B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FB331BE-375C-44B1-9CD1-00A964AA5B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ADC472E-9428-44B6-BE70-CC619432A5DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ADC472E-9428-44B6-BE70-CC619432A5DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ADC472E-9428-44B6-BE70-CC619432A5DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ADC472E-9428-44B6-BE70-CC619432A5DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
