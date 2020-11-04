@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FabLabSandboxAPI.Authorization.AuthenticationDB;
 using FabLabSandboxAPI.Authorization.AuthServises;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,21 +18,22 @@ namespace FabLabSandboxAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class SuperAdminController : ControllerBase
     {
+        private readonly AuthorizationDBContext _context;
 
         private readonly UserManager<AppUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+        public SuperAdminController(AuthorizationDBContext context, UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
+            _context = context;
         }
-
 
         [HttpPost]
         [Route("Register")]
@@ -63,11 +65,11 @@ namespace FabLabSandboxAPI.Controllers
                 });
             }
 
-            if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            if (await roleManager.RoleExistsAsync(UserRoles.User))
+            if (!await roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.SuperAdmin));
+            if (await roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
             {
-                await userManager.AddToRolesAsync(user, new[] {UserRoles.User});
+                await userManager.AddToRolesAsync(user, new[] {UserRoles.SuperAdmin });
             }
 
             return Ok(new Response
@@ -111,52 +113,46 @@ namespace FabLabSandboxAPI.Controllers
 
             return Unauthorized();
         }
-
-
-        [HttpPost]
-        [Route("RegisterAdmin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
+        
+        [HttpGet]
+        public ActionResult<IEnumerable<AppUser>> GetAllUsers()
         {
-            var userExist = await userManager.FindByNameAsync(model.UserName);
-            if (userExist != null)
+            var tada = userManager.Users.ToList();
+          //  var ShowUsers = _context.Users.ToList();
+          return tada; //ShowUsers;
+        }
+
+        [Authorize(Roles = UserRoles.SuperAdmin)]
+        [HttpPut("{email}")]
+        public async Task<IActionResult> UserToAdmin( string email)
+        {
+            var User = await userManager.FindByNameAsync(email);
+            //var User = _context..FirstOrDefault(p => p.Email == email);
+
+            if (User != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (await roleManager.RoleExistsAsync(UserRoles.Admin))
                 {
-                    Status = "Error",
-                    Message = "User already exist"
+                    await userManager.AddToRolesAsync(User, new[] {UserRoles.Admin});
+                }
+
+                return Ok(new Response
+                {
+                    Status = "Success",
+                    Message = "User role changed successfully"
                 });
             }
-
-            AppUser user = new AppUser();
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response
             {
-                user.Email = model.Email;
-                user.UserName = model.UserName;
-            }
-            var result = await userManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response
-                {
-                    Status = "Error",
-                    Message = "User creation faild"
-                });
-            }
-
-            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await userManager.AddToRolesAsync(user, new[] {UserRoles.Admin});
-            }
-
-            return Ok(new Response
-            {
-                Status = "Success",
-                Message = "User created successfully"
+                Status = "Error",
+                Message = "User role not changed"
             });
+
         }
     }
+
+
 }
+
