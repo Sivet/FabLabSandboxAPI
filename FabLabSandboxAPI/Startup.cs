@@ -44,7 +44,7 @@ namespace FabLabSandboxAPI
             services.AddDbContext<AuthorizationDBContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("AutorConnection")));
 
-            //services.AddControllers();
+            services.AddControllers();
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthorizationDBContext>()
                 .AddDefaultTokenProviders();
@@ -118,13 +118,13 @@ namespace FabLabSandboxAPI
             {
                 endpoints.MapControllers();
             });
-           // app.UseSwagger();
-           // app.UseSwaggerUI(opt =>
-           //{
-           //    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger for FabLab");
-           //    opt.RoutePrefix = ""; // change in development!
-           //}
-           //);
+            app.UseSwagger();
+            app.UseSwaggerUI(opt =>
+           {
+               opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger for FabLab");
+               opt.RoutePrefix = ""; // change in development!
+           }
+           );
         }
     }
 }

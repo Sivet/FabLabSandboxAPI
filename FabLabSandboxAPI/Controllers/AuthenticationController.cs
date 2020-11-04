@@ -59,9 +59,14 @@ namespace FabLabSandboxAPI.Controllers
                         Message = "User creation faild"
                     });
                 }
+               
                 if (!await roleManager.RoleExistsAsync(UserRoles.User))
                     await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-                return Ok(new Response
+                if (await roleManager.RoleExistsAsync(UserRoles.User))
+                {
+                    await userManager.AddToRolesAsync(user, new[] { UserRoles.User });
+                }
+            return Ok(new Response
                 {
                     Status = "Success",
                     Message = "User created successfully"
