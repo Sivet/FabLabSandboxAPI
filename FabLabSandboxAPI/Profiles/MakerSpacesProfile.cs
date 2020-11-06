@@ -1,6 +1,7 @@
 using AutoMapper;
 using FabLabSandboxAPI.Models;
 using FabLabSandboxAPI.Dtos;
+using FabLabSandboxAPI.Dtos.MachineDto;
 
 namespace FabLabSandboxAPI.Profiles
 {
@@ -12,6 +13,15 @@ namespace FabLabSandboxAPI.Profiles
 
             //Target -> Source
             CreateMap<MakerSpaceCreateDto, MakerSpace>();
+
+            CreateMap<MakerSpaceUpdateDto, MakerSpace>();
+            CreateMap<MakerSpace, MakerSpaceUpdateDto>();
+            CreateMap<MakerSpace, MakerSpaceIdReadDto>();
+
+            CreateMap<Machine,MachineReadDto>();
+            CreateMap<MachineCreateDto,Machine>();
+
+
         }
     }
 }

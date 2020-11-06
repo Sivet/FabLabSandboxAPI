@@ -2,8 +2,9 @@ using AutoMapper;
 using FabLabSandboxAPI.Controllers;
 using FabLabSandboxAPI.Data;
 using FabLabSandboxAPI.Dtos;
-using FabLabSandboxAPI.Models;
 using FabLabSandboxAPI.Profiles;
+using FabLabSandboxAPI.Models;
+using FabLabSandboxAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Frameworks;
 using System;
@@ -24,14 +25,15 @@ namespace FabLabSandboxAPITest
     {
         MakerSpacesController _controller;
         IMakerSpaceRepo _repo;
+        MakerSpacesService service;
 
         public CreateMakerSpaceTest(){
             var profile = new MakerSpacesProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = new Mapper(configuration);
-
             _repo = new MockRepo();
-            _controller = new MakerSpacesController(_repo, mapper);
+            service = new MakerSpacesService(_repo, mapper);
+            _controller = new MakerSpacesController(service);
             
         }
         [Fact]
@@ -43,7 +45,6 @@ namespace FabLabSandboxAPITest
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
         public void GetMakerSpaceById_Valid(int id){
             var result = _controller.GetMakerSpaceById(id);
 
@@ -58,85 +59,88 @@ namespace FabLabSandboxAPITest
             var result = _controller.GetMakerSpaceByName(name);
 
             Assert.IsType<OkObjectResult>(result.Result);
-            Assert.Equal(result.Value.Name, name);
+            Assert.Equal(result.Value.MakerSpaceName, name);
         }
 
         //Makes no sense: TODO, test authentication.
-        //[Fact]
-        //public void GetMakerSpaceByPostal_Verify()
-        //{
-        //    //Arrange
-        //    var result = _controller.GetAllMakerSpaces();
-
-
-        //    //ACT
-        //    //Postal Code list from spreadsheet.
-        //    List<string> postalCodes = new List<string>();
-
-        //    //Read from spreadsheet and store in list.
-        //    var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
-        //    while (!reader.EndOfStream)
-        //    {
-        //        var line = reader.ReadLine();
-        //        postalCodes.Add(line.Split(';')[0]);
-        //    }
-        //    postalCodes.RemoveAt(0);
-
-        //    //Assert
-        //    Assert.Contains(result.Result, postalCodes[0]);
-
-        //}
-        //Problem: can't access mapper or repo, wrong approach?
-        /*[Fact]
-        public void GetAllMakerSpacesTest()
+        [Theory]
+        [InlineData("5000")]
+        public void GetMakerSpaceByPostCode_Verify(string postCode)
         {
-            //ARRANGE
+            //Arrange
+            var result = _controller.GetMakerSpaceByPostCode(postCode);
 
-            //MakerSpace dummy
-            var makerSpace = new MakerSpace();
-            makerSpace.MakerSpaceName = "Lab1";
-            makerSpace.MakerSpacePostCode = "5000";
-            makerSpace.MakerSpaceCity = "Vejle";
-            makerSpace.MakerSpaceStreet = "Fynsvej 12";
-            //ExampleDto
-            MakerSpaceCreateDto dto = new MakerSpaceCreateDto();
-            dto.Name = makerSpace.MakerSpaceName;
-            dto.PostCode = makerSpace.MakerSpacePostCode;
-            dto.City = makerSpace.MakerSpaceCity;
-            dto.Street = makerSpace.MakerSpaceStreet;
-
+            //ACT
             //Postal Code list from spreadsheet.
             List<string> postalCodes = new List<string>();
 
             //Read from spreadsheet and store in list.
             var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
-            while(!reader.EndOfStream)
+            while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
                 postalCodes.Add(line.Split(';')[0]);
             }
             postalCodes.RemoveAt(0);
-            //Mock setup
 
-            //Mock Repo
-            var _mockRepo = new Mock<IMakerSpaceRepo>();
-            _mockRepo.Setup(x => x.CreateMakerSpace(makerSpace));
+            string match = postalCodes
+                    .FirstOrDefault(stringToCheck => stringToCheck.Contains(postCode));
 
-            //Mock Mapper
-            var _mockMapper = new Mock<IMapper>();
-            _mockMapper.Setup(_ => _
-            .Map<IEnumerable<MakerSpaceReadDto>>(_mockRepo
-            .Setup(x => x
-            .CreateMakerSpace(makerSpace)))); //create example makerspace.
+            //Assert
+            Assert.Equal(result.Value.MakerSpacePostCode, match);
 
-            //Mock Controller
-            var controller = new MakerSpacesController(_mockRepo.Object, _mockMapper.Object);
+        }
+        //Problem: can't access mapper or repo, wrong approach?
+        //[Fact]
+        //public void GetAllMakerSpacesTest()
+        //{
+        //    ARRANGE
 
-            //ACT
-            var result = controller.CreateMakerSpace(dto);
+        //    MakerSpace dummy
+        //    var makerSpace = new MakerSpace();
+        //    makerSpace.MakerSpaceName = "Lab1";
+        //    makerSpace.MakerSpacePostCode = "5000";
+        //    makerSpace.MakerSpaceCity = "Vejle";
+        //    makerSpace.MakerSpaceStreet = "Fynsvej 12";
+        //    ExampleDto
+        //    MakerSpaceCreateDto dto = new MakerSpaceCreateDto();
+        //    dto.Name = makerSpace.MakerSpaceName;
+        //    dto.PostCode = makerSpace.MakerSpacePostCode;
+        //    dto.City = makerSpace.MakerSpaceCity;
+        //    dto.Street = makerSpace.MakerSpaceStreet;
 
-            //ASSERT
-            Assert.Equal(result.Value.PostCode, postalCodes[1]);
-        }*/
+        //    Postal Code list from spreadsheet.
+        //    List<string> postalCodes = new List<string>();
+
+        //    Read from spreadsheet and store in list.
+        //    var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
+        //    while(!reader.EndOfStream)
+        //    {
+        //        var line = reader.ReadLine();
+        //        postalCodes.Add(line.Split(';')[0]);
+        //    }
+        //    postalCodes.RemoveAt(0);
+        //    Mock setup
+
+        //    Mock Repo
+        //    var _mockRepo = new Mock<IMakerSpaceRepo>();
+        //    _mockRepo.Setup(x => x.CreateMakerSpace(makerSpace));
+
+        //    Mock Mapper
+        //    var _mockMapper = new Mock<IMapper>();
+        //    _mockMapper.Setup(_ => _
+        //    .Map<IEnumerable<MakerSpaceReadDto>>(_mockRepo
+        //    .Setup(x => x
+        //    .CreateMakerSpace(makerSpace)))); //create example makerspace.
+
+        //    Mock Controller
+        //    var controller = new MakerSpacesController(_mockRepo.Object, _mockMapper.Object);
+
+        //    ACT
+        //    var result = controller.CreateMakerSpace(dto);
+
+        //    ASSERT
+        //    Assert.Equal(result.Value.PostCode, postalCodes[1]);
+        //}
     }
 }

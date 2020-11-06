@@ -13,13 +13,14 @@ namespace FabLabSandboxAPI.Data
         {
             _context = context;
         }
-         public bool SaveChanges()
+        public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
         }
         public void CreateMakerSpace(MakerSpace space)
         {
-            if(space == null){
+            if (space == null)
+            {
                 throw new ArgumentNullException(nameof(space));
             }
             _context.Add(space);
@@ -43,20 +44,28 @@ namespace FabLabSandboxAPI.Data
             //throw new System.NotImplementedException();
         }
 
+        public MakerSpace GetMakerSpaceByPostCode(string postCode)
+        {
+            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpacePostCode == postCode);
+            //throw new System.NotImplementedException();
+        }
+
         public void UpdateMakerSpace(MakerSpace space)
         {
+            _context.Update(space);
+
             //check optimistic concurrency!!!
-           // if(space == null){
-             //   throw new ArgumentNullException(nameof(space));
-           // }
-           // _context.Add(space);
-             //   _context.Entry(space).OriginalValues["RowVersion"] = space.RowVersion;
+            // if(space == null){
+            //   throw new ArgumentNullException(nameof(space));
+            // }
+            // _context.Add(space);
+            //   _context.Entry(space).OriginalValues["RowVersion"] = space.RowVersion;
 
         }
 
         public void DeleteMakerSpace(MakerSpace space)
         {
-             if (space==null)
+            if (space == null)
             {
                 throw new ArgumentNullException(nameof(space));
             }

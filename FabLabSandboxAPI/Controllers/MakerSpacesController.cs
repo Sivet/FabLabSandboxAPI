@@ -1,50 +1,63 @@
 using System.Collections.Generic;
+using FabLabSandboxAPI.Authorization.AuthServises;
 using Microsoft.AspNetCore.Mvc;
+using FabLabSandboxAPI.Services;
 using FabLabSandboxAPI.Models;
 using FabLabSandboxAPI.Data;
-using AutoMapper;
+//using AutoMapper;
 using FabLabSandboxAPI.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace FabLabSandboxAPI.Controllers
-{
-    
+{ 
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
+ 
+  //[Authorize]
     [ApiController]
     [Route("api/MakerSpaces")]
     public class MakerSpacesController : ControllerBase
     {
-        private readonly IMakerSpaceRepo _repo;
-        private readonly IMapper _mapper;
+        /*private readonly IMakerSpaceRepo _repo;
+        private readonly IMapper _mapper;*/
+        MakerSpacesService _service; //Should be interface
 
-        public MakerSpacesController(IMakerSpaceRepo repo, IMapper mapper)
+        public MakerSpacesController(MakerSpacesService service)
         {
-            _repo = repo;
-            _mapper = mapper;
+            _service = service;
         }
         /// <summary>This GET method returns all MakerSpaces from DB</summary>
         /// <returns>An arrey of MakerSpases</returns>
         [HttpGet]
         public ActionResult<IEnumerable<MakerSpaceReadDto>> GetAllMakerSpaces()
         {
-            var makerSpaces = _repo.GetAllMakerSpaces();
-            return Ok(_mapper.Map<IEnumerable<MakerSpaceReadDto>>(makerSpaces));
+            return Ok(_service.GetAllMakerSpaces());
         }
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its ID </summary>
         /// <returns>An MakerSpase</returns>
-        [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
+         [Authorize(Roles = UserRoles.Admin)]
+         [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(int id)
         {
-            var makerSpace = _repo.GetMakerSpaceById(id);
-            return Ok(_mapper.Map<MakerSpaceReadDto>(makerSpace));
+            return Ok(_service.GetMakerSpaceById(id));
         }
 
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>
         /// <returns>An MakerSpase</returns>
+       
         [HttpGet("name/{name}")]
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceByName(string name)
         {
-            var makerSpace = _repo.GetMakerSpaceByName(name);
-            return Ok(_mapper.Map<MakerSpaceReadDto>(makerSpace));
+            return Ok(_service.GetMakerSpaceByName(name));
+        }
+
+        /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>
+        /// <returns>An MakerSpase</returns>
+
+        [HttpGet("{postCode}")]
+        public ActionResult<MakerSpaceReadDto> GetMakerSpaceByPostCode(string postCode)
+        {
+            return Ok(_service.GetMakerSpaceByPostCode(postCode));
         }
 
         /// <summary> This POST method create MakerSpace in DB </summary>
@@ -52,26 +65,43 @@ namespace FabLabSandboxAPI.Controllers
         [HttpPost]
         public ActionResult<MakerSpaceReadDto> CreateMakerSpace(MakerSpaceCreateDto createDto)
         {
-            var makerSpaceModel = _mapper.Map<MakerSpace>(createDto);
-            _repo.CreateMakerSpace(makerSpaceModel);
-            _repo.SaveChanges();
+            _service.CreateMakerSpace(createDto);
+            //Check if valid
+            return Created($"api/MakerSpaces", null);//CreatedAtRoute(nameof(GetMakerSpaceById), new { Id = makerSpaceReadDto.Id }, makerSpaceReadDto);
+        }
 
-            var makerSpaceReadDto = _mapper.Map<MakerSpaceReadDto>(makerSpaceModel);
+        ///<summary> This PUT method update MakerSpace in DB </summary>
+        [HttpPut("{id}")]
+        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        {
+            if (_service.UpdateMakerSpace(id, MakerSpaceCreateDto) == false)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
 
-            return CreatedAtRoute(nameof(GetMakerSpaceById), new { Id = makerSpaceReadDto.Id }, makerSpaceReadDto);
+        /// <summary> This PUT method partial update MakerSpace (not all but some columns in tabel in DB </summary>
+        //Purtial update
+        //PATCH api/MakerSpace/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc)
+        {
+            if (_service.PartialMakerSpaceUpdate(id, patchDoc) == false)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
 
         /// <summary> This DELETE method delete MakerSpace from DB </summary>
         [HttpDelete("{id}")]
         public ActionResult DeleteMakerSpace(int id)
         {
-            var makerSpaceModel = _repo.GetMakerSpaceById(id);
-            if (makerSpaceModel == null)
+            if (_service.DeleteMakerSpace(id) == false)
             {
                 return NotFound();
             }
-            _repo.DeleteMakerSpace(makerSpaceModel);
-            _repo.SaveChanges();
             return NoContent();
         }
 

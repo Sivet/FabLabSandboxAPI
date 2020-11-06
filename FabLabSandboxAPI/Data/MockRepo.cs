@@ -10,7 +10,7 @@ namespace FabLabSandboxAPI.Data
             makerSpaces = new List<MakerSpace>
             {
                  new MakerSpace{
-                    Id=0, 
+                    Id=1, 
                     MakerSpaceName="FabLab UCL",
                     MakerSpacePostCode="2700",
                     MakerSpaceCity="CityVille",
@@ -57,6 +57,17 @@ namespace FabLabSandboxAPI.Data
             foreach (var item in makerSpaces)
             {
                 if(name == item.MakerSpaceName){
+                    return item;
+                }
+            }
+            return null;
+        }
+        public MakerSpace GetMakerSpaceByPostCode(string name)
+        {
+            foreach (var item in makerSpaces)
+            {
+                if (name == item.MakerSpacePostCode)
+                {
                     return item;
                 }
             }

@@ -2,7 +2,7 @@
 
 namespace FabLabSandboxAPI.Migrations
 {
-    public partial class testMigration : Migration
+    public partial class lOKALdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace FabLabSandboxAPI.Migrations
                     MakerSpacePostCode = table.Column<string>(maxLength: 4, nullable: false),
                     MakerSpaceStreet = table.Column<string>(maxLength: 100, nullable: false),
                     MakerSpaceCity = table.Column<string>(maxLength: 250, nullable: false),
-                    IsAccepted = table.Column<bool>(nullable: false, defaultValue: false)
+                    IsAccepted = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
