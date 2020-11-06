@@ -86,62 +86,12 @@ namespace FabLabSandboxAPITest
             string match = postalCodes
                     .FirstOrDefault(stringToCheck => stringToCheck.Contains(postCode));
 
+            //Fault! result.Value returns null. ActionResult value is through result.Result.Value internally... Shucks.
             //Assert
             Assert.IsType<OkObjectResult>(result.Result);
             Assert.Equal(result.Value.MakerSpacePostCode, match);
 
         }
-        //Problem: can't access mapper or repo, wrong approach?
-        //[Fact]
-        //public void GetAllMakerSpacesTest()
-        //{
-        //    ARRANGE
 
-        //    MakerSpace dummy
-        //    var makerSpace = new MakerSpace();
-        //    makerSpace.MakerSpaceName = "Lab1";
-        //    makerSpace.MakerSpacePostCode = "5000";
-        //    makerSpace.MakerSpaceCity = "Vejle";
-        //    makerSpace.MakerSpaceStreet = "Fynsvej 12";
-        //    ExampleDto
-        //    MakerSpaceCreateDto dto = new MakerSpaceCreateDto();
-        //    dto.Name = makerSpace.MakerSpaceName;
-        //    dto.PostCode = makerSpace.MakerSpacePostCode;
-        //    dto.City = makerSpace.MakerSpaceCity;
-        //    dto.Street = makerSpace.MakerSpaceStreet;
-
-        //    Postal Code list from spreadsheet.
-        //    List<string> postalCodes = new List<string>();
-
-        //    Read from spreadsheet and store in list.
-        //    var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
-        //    while(!reader.EndOfStream)
-        //    {
-        //        var line = reader.ReadLine();
-        //        postalCodes.Add(line.Split(';')[0]);
-        //    }
-        //    postalCodes.RemoveAt(0);
-        //    Mock setup
-
-        //    Mock Repo
-        //    var _mockRepo = new Mock<IMakerSpaceRepo>();
-        //    _mockRepo.Setup(x => x.CreateMakerSpace(makerSpace));
-
-        //    Mock Mapper
-        //    var _mockMapper = new Mock<IMapper>();
-        //    _mockMapper.Setup(_ => _
-        //    .Map<IEnumerable<MakerSpaceReadDto>>(_mockRepo
-        //    .Setup(x => x
-        //    .CreateMakerSpace(makerSpace)))); //create example makerspace.
-
-        //    Mock Controller
-        //    var controller = new MakerSpacesController(_mockRepo.Object, _mockMapper.Object);
-
-        //    ACT
-        //    var result = controller.CreateMakerSpace(dto);
-
-        //    ASSERT
-        //    Assert.Equal(result.Value.PostCode, postalCodes[1]);
-        //}
     }
 }
