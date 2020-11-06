@@ -41,12 +41,12 @@ namespace FabLabSandboxAPI
             services.AddDbContext<MakerSpaceContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("MakerSpaceConnection")));
             //Authorization context
-            services.AddDbContext<AuthorizationDBContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("AutorConnection")));
+            /*services.AddDbContext<AuthorizationDBContext>(opt =>
+                opt.UseSqlServer(Configuration.GetConnectionString("AutorConnection")));*/
 
             services.AddControllers();
             services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<AuthorizationDBContext>()
+                .AddEntityFrameworkStores<MakerSpaceContext>()
                 .AddDefaultTokenProviders();
             //Adding Authentification
             services.AddAuthentication(opt =>

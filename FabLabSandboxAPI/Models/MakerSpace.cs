@@ -7,7 +7,7 @@ namespace FabLabSandboxAPI.Models
     public class MakerSpace
     {
         [Key]
-        public int Id { get; set; }
+        public int MakerSpaceId { get; set; }
         [Required]
         [MaxLength(250)]
         public string MakerSpaceName { get; set; }
@@ -33,7 +33,9 @@ namespace FabLabSandboxAPI.Models
 
         public ICollection<Machine> Machines { get; set; }
 
-        public ICollection<Event> Events { get; set; }
+        public ICollection<Event> EventsAtMakerSpace { get; set; }
+
+        public ICollection<MakerSpaceHasUser> UsersAtMakerSpace {get; set;}
 
     }
 }

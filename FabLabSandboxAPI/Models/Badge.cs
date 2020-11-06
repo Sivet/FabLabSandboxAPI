@@ -21,6 +21,8 @@ namespace FabLabSandboxAPI.Models
         [Required]
         public Level level { get; set; }
 
-        public ICollection<EventGivesBadges> Events { get; set; }
+        public ICollection<EventGivesBadges> BadgesForEvents { get; set; }
+
+        public ICollection<UserEarnedBadges> UsersEarned { get; set; }
     }
 }

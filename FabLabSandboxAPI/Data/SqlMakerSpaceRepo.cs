@@ -34,7 +34,7 @@ namespace FabLabSandboxAPI.Data
 
         public MakerSpace GetMakerSpaceById(int id)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.Id == id);
+            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceId == id);
             //throw new System.NotImplementedException();
         }
 

@@ -20,19 +20,17 @@ namespace FabLabSandboxAPI.Controllers
     [ApiController]
     public class SuperAdminController : ControllerBase
     {
-        private readonly AuthorizationDBContext _context;
 
         private readonly UserManager<AppUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public SuperAdminController(AuthorizationDBContext context, UserManager<AppUser> userManager,
+        public SuperAdminController(UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
-            _context = context;
         }
 
         [HttpPost]
@@ -151,8 +149,26 @@ namespace FabLabSandboxAPI.Controllers
             });
 
         }
+        [Authorize(Roles = UserRoles.SuperAdmin)]
+        [HttpDelete("{email}")]
+        public async Task<IActionResult> DeleteUser(string email)
+        {
+            var User = await userManager.FindByEmailAsync(email);
+            if (User != null)
+            {
+                await userManager.DeleteAsync(User);
+                return Ok(new Response
+                {
+                    Status = "Success",
+                    Message = "User  removed successfully"
+                });
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response
+            {
+                Status = "Error",
+                Message = "User not removed"
+            });
+        }
     }
-
-
 }
-

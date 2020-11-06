@@ -100,7 +100,7 @@ namespace FabLabSandboxAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteMachine(int id)
         {
-           if (_service.DeleteMachine(id) == null)
+           if (_service.DeleteMachine(id) == false)
            {
                return NotFound();
            }

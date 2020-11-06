@@ -29,7 +29,9 @@ namespace FabLabSandboxAPI.Models
         [Required]
         public MakerSpace MakerSpace { get; set; }
 
-        public ICollection<EventGivesBadges> Events { get; set; }
+        public ICollection<EventGivesBadges> BadgesGiven { get; set; }
+
+        public ICollection<UserAttendingEvent> UsersAttending { get; set; }
 
     }
 }
