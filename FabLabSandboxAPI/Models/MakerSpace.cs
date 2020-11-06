@@ -6,7 +6,6 @@ namespace FabLabSandboxAPI.Models
 {
     public class MakerSpace
     {
-
         [Key]
         public int Id { get; set; }
         [Required]
@@ -14,26 +13,27 @@ namespace FabLabSandboxAPI.Models
         public string MakerSpaceName { get; set; }
 
         [Required]
-        [MaxLength(4)]
-        public string MakerSpacePostCode { get; set; }
+        public string StreetName { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        public string MakerSpaceStreet { get; set; }
+        public string StreetNumber { get; set; }
 
         [Required]
-        [MaxLength(250)]
-        public string MakerSpaceCity { get; set; }
+        public string City { get; set; }
 
-       /* [NotMapped]*/
-        public ICollection <Machine> Machines { get; set; }
+        [Required]
+        public string ZipCode { get; set; }
 
-      /*   public void AddMachine(Machine machines)
-        {
-          Machine.Add(machines);
-        }*/
+        public bool? IsAccepted { get; set; } = false;
 
-        public bool? IsAccepted{ get; set; } = false;
+        /*[Required]
+        public int MakerAddressId { get; set; }
+        [Required]
+        public Address MakerSpaceAdress { get; set; }*/
+
+        public ICollection<Machine> Machines { get; set; }
+
+        public ICollection<Event> Events { get; set; }
 
     }
 }
