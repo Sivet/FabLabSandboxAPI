@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuthorizationApi\AuthorizationApi.csproj" />
     <ProjectReference Include="..\FabLabSandboxAPI\FabLabSandboxAPI.csproj" />
   </ItemGroup>
 

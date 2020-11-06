@@ -54,7 +54,7 @@ namespace FabLabSandboxAPI.Controllers
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>
         /// <returns>An MakerSpase</returns>
 
-        [HttpGet("{postCode}")]
+        [HttpGet("postCode/{postCode}")]
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceByPostCode(string postCode)
         {
             return Ok(_service.GetMakerSpaceByPostCode(postCode));

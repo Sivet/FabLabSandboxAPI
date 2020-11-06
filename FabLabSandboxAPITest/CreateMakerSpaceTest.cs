@@ -64,7 +64,7 @@ namespace FabLabSandboxAPITest
 
         //Makes no sense: TODO, test authentication.
         [Theory]
-        [InlineData("5000")]
+        [InlineData("2700")]
         public void GetMakerSpaceByPostCode_Verify(string postCode)
         {
             //Arrange
@@ -87,6 +87,7 @@ namespace FabLabSandboxAPITest
                     .FirstOrDefault(stringToCheck => stringToCheck.Contains(postCode));
 
             //Assert
+            Assert.IsType<OkObjectResult>(result.Result);
             Assert.Equal(result.Value.MakerSpacePostCode, match);
 
         }
