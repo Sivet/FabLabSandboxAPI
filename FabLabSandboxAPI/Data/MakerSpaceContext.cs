@@ -1,9 +1,12 @@
+using FabLabSandboxAPI.Authorization.AuthenticationDB;
 using FabLabSandboxAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FabLabSandboxAPI.Data
 {
-    public class MakerSpaceContext : DbContext{
+    public class MakerSpaceContext : IdentityDbContext<AppUser>
+    {
         public MakerSpaceContext(DbContextOptions<MakerSpaceContext> opt) : base(opt)
         {
             
@@ -14,8 +17,8 @@ namespace FabLabSandboxAPI.Data
         public DbSet<Badge> Badges {get; set;}
         public DbSet<EventGivesBadges> eventGivesBadges {get; set;}
         //public DbSet<Address> Addresses {get; set;}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder){
+            base.OnModelCreating(builder);
             modelBuilder.Entity<MakerSpace>()
             .Property(x => x.IsAccepted)
             .HasDefaultValueSql("0");

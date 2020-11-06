@@ -36,7 +36,7 @@ namespace FabLabSandboxAPI.Data.MachineData
 
         public Machine GetMachineById(int id)
         {
-            return _context.Machines.FirstOrDefault(p => p.MachineId == id);
+            return _context.Machines.Include(x => x.MakerSpace).FirstOrDefault(p => p.MachineId == id);
             //throw new System.NotImplementedException();
         }
 
