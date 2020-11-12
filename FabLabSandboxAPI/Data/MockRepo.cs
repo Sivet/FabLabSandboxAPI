@@ -10,25 +10,26 @@ namespace FabLabSandboxAPI.Data
             makerSpaces = new List<MakerSpace>
             {
                  new MakerSpace{
-                    Id=1, 
+                    MakerSpaceId=1, 
                     MakerSpaceName="FabLab UCL",
-                    MakerSpacePostCode="2700",
+                    /*MakerSpacePostCode="2700",
                     MakerSpaceCity="CityVille",
-                    MakerSpaceStreet="StreetStreet"
+                    MakerSpaceStreet="StreetStreet"*/
                     },
                  new MakerSpace{
-                    Id=2, 
+                    MakerSpaceId=2, 
                     MakerSpaceName="BackYardMakerSpace",
-                    MakerSpacePostCode="5000",
+                    /*MakerSpacePostCode="5000",
                     MakerSpaceCity="SmallCity",
-                    MakerSpaceStreet="TheStreetAle"
+                    MakerSpaceStreet="TheStreetAle"*/
                     },
                  new MakerSpace {
-                    Id = 3,
+                    MakerSpaceId = 3,
                     MakerSpaceName = "A Third one",
-                    MakerSpacePostCode="2500",
+                   /* MakerSpacePostCode="2500",
                     MakerSpaceCity="BigCity",
-                    MakerSpaceStreet="CarStreet"}
+                    MakerSpaceStreet="CarStreet"*/
+                    }
         };
         }
         public void CreateMakerSpace(MakerSpace space)
@@ -45,7 +46,7 @@ namespace FabLabSandboxAPI.Data
         {
             foreach (var item in makerSpaces)
             {
-                if(id == item.Id){
+                if(id == item.MakerSpaceId){
                     return item;
                 }
             }

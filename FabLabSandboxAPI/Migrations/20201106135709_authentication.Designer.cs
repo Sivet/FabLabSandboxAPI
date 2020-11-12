@@ -4,14 +4,16 @@ using FabLabSandboxAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FabLabSandboxAPI.Migrations
 {
     [DbContext(typeof(MakerSpaceContext))]
-    partial class MakerSpaceContextModelSnapshot : ModelSnapshot
+    [Migration("20201106135709_authentication")]
+    partial class authentication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,7 +212,7 @@ namespace FabLabSandboxAPI.Migrations
 
             modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpace", b =>
                 {
-                    b.Property<int>("MakerSpaceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -241,67 +243,9 @@ namespace FabLabSandboxAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MakerSpaceId");
+                    b.HasKey("Id");
 
                     b.ToTable("MakerSpaces");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpaceHasUser", b =>
-                {
-                    b.Property<int>("MakerSpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("MakerSpaceId", "UserId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("makerSpaceHasUser");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserAttendingEvent", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "EventId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("userAttendingEvent");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserEarnedBadges", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BadgeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "BadgeId");
-
-                    b.HasIndex("BadgeId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("userEarnedBadges");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -447,7 +391,7 @@ namespace FabLabSandboxAPI.Migrations
             modelBuilder.Entity("FabLabSandboxAPI.Models.Event", b =>
                 {
                     b.HasOne("FabLabSandboxAPI.Models.MakerSpace", "MakerSpace")
-                        .WithMany("EventsAtMakerSpace")
+                        .WithMany("Events")
                         .HasForeignKey("MakerSpaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -456,13 +400,13 @@ namespace FabLabSandboxAPI.Migrations
             modelBuilder.Entity("FabLabSandboxAPI.Models.EventGivesBadges", b =>
                 {
                     b.HasOne("FabLabSandboxAPI.Models.Badge", "badge")
-                        .WithMany("BadgesForEvents")
+                        .WithMany("Events")
                         .HasForeignKey("BadgeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FabLabSandboxAPI.Models.Event", "evt")
-                        .WithMany("BadgesGiven")
+                        .WithMany("Events")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -475,45 +419,6 @@ namespace FabLabSandboxAPI.Migrations
                         .HasForeignKey("MakerSpaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpaceHasUser", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.MakerSpace", "makerSpace")
-                        .WithMany("UsersAtMakerSpace")
-                        .HasForeignKey("MakerSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Authorization.AuthenticationDB.AppUser", "user")
-                        .WithMany("MakerSpaces")
-                        .HasForeignKey("userId");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserAttendingEvent", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.Event", "evt")
-                        .WithMany("UsersAttending")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Authorization.AuthenticationDB.AppUser", "user")
-                        .WithMany("Events")
-                        .HasForeignKey("userId");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserEarnedBadges", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.Badge", "badge")
-                        .WithMany("UsersEarned")
-                        .HasForeignKey("BadgeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Authorization.AuthenticationDB.AppUser", "user")
-                        .WithMany("BadgesEarned")
-                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

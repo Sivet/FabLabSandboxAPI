@@ -4,14 +4,16 @@ using FabLabSandboxAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FabLabSandboxAPI.Migrations
 {
     [DbContext(typeof(MakerSpaceContext))]
-    partial class MakerSpaceContextModelSnapshot : ModelSnapshot
+    [Migration("20201103150611_Authorization")]
+    partial class Authorization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,100 +86,6 @@ namespace FabLabSandboxAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Badge", b =>
-                {
-                    b.Property<int>("BadgeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LevelID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BadgeId");
-
-                    b.HasIndex("LevelID");
-
-                    b.ToTable("Badges");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Event", b =>
-                {
-                    b.Property<int>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("End")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MakerSpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("EventId");
-
-                    b.HasIndex("MakerSpaceId");
-
-                    b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.EventGivesBadges", b =>
-                {
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BadgeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EventId", "BadgeId");
-
-                    b.HasIndex("BadgeId");
-
-                    b.ToTable("eventGivesBadges");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Level", b =>
-                {
-                    b.Property<int>("LevelId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("LevelId");
-
-                    b.ToTable("Level");
-                });
-
             modelBuilder.Entity("FabLabSandboxAPI.Models.Machine", b =>
                 {
                     b.Property<int>("MachineId")
@@ -210,98 +118,37 @@ namespace FabLabSandboxAPI.Migrations
 
             modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpace", b =>
                 {
-                    b.Property<int>("MakerSpaceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool?>("IsAccepted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("0");
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MakerSpaceCity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("MakerSpaceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("StreetName")
+                    b.Property<string>("MakerSpacePostCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(4)")
+                        .HasMaxLength(4);
 
-                    b.Property<string>("StreetNumber")
+                    b.Property<string>("MakerSpaceStreet")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MakerSpaceId");
+                    b.HasKey("Id");
 
                     b.ToTable("MakerSpaces");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpaceHasUser", b =>
-                {
-                    b.Property<int>("MakerSpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("MakerSpaceId", "UserId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("makerSpaceHasUser");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserAttendingEvent", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "EventId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("userAttendingEvent");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserEarnedBadges", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BadgeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "BadgeId");
-
-                    b.HasIndex("BadgeId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("userEarnedBadges");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -435,39 +282,6 @@ namespace FabLabSandboxAPI.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Badge", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.Level", "level")
-                        .WithMany()
-                        .HasForeignKey("LevelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.Event", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.MakerSpace", "MakerSpace")
-                        .WithMany("EventsAtMakerSpace")
-                        .HasForeignKey("MakerSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.EventGivesBadges", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.Badge", "badge")
-                        .WithMany("BadgesForEvents")
-                        .HasForeignKey("BadgeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Models.Event", "evt")
-                        .WithMany("BadgesGiven")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FabLabSandboxAPI.Models.Machine", b =>
                 {
                     b.HasOne("FabLabSandboxAPI.Models.MakerSpace", "MakerSpace")
@@ -475,45 +289,6 @@ namespace FabLabSandboxAPI.Migrations
                         .HasForeignKey("MakerSpaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.MakerSpaceHasUser", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.MakerSpace", "makerSpace")
-                        .WithMany("UsersAtMakerSpace")
-                        .HasForeignKey("MakerSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Authorization.AuthenticationDB.AppUser", "user")
-                        .WithMany("MakerSpaces")
-                        .HasForeignKey("userId");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserAttendingEvent", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.Event", "evt")
-                        .WithMany("UsersAttending")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Authorization.AuthenticationDB.AppUser", "user")
-                        .WithMany("Events")
-                        .HasForeignKey("userId");
-                });
-
-            modelBuilder.Entity("FabLabSandboxAPI.Models.UserEarnedBadges", b =>
-                {
-                    b.HasOne("FabLabSandboxAPI.Models.Badge", "badge")
-                        .WithMany("UsersEarned")
-                        .HasForeignKey("BadgeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FabLabSandboxAPI.Authorization.AuthenticationDB.AppUser", "user")
-                        .WithMany("BadgesEarned")
-                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
