@@ -9,7 +9,7 @@ using System;
 namespace FabLabSandboxAPI.Services
 {
 
-    public class MakerSpacesService
+    public class MakerSpacesService : IMakerSpaceService
     {
         private readonly IMakerSpaceRepo _repo;
         private readonly IMapper _mapper;
@@ -30,7 +30,6 @@ namespace FabLabSandboxAPI.Services
             var makerSpace = _repo.GetMakerSpaceById(id);
             return _mapper.Map<MakerSpaceReadDto>(makerSpace);
         }
-
         
         public MakerSpaceReadDto GetMakerSpaceByName(string name)
         {
