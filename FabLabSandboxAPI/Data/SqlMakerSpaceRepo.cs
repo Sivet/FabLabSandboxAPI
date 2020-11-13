@@ -43,6 +43,11 @@ namespace FabLabSandboxAPI.Data
             return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceName == name);
             //throw new System.NotImplementedException();
         }
+        public MakerSpace GetMakerSpaceByPostCode(string postCode)
+        {
+            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpacePostCode == postCode);
+            //throw new System.NotImplementedException();
+        }
 
         public void UpdateMakerSpace(MakerSpace space)
         {

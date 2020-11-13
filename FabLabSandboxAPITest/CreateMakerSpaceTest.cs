@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
+using System.IO;
+using System.Linq;
 
 namespace FabLabSandboxAPITest
 {
@@ -21,6 +23,7 @@ namespace FabLabSandboxAPITest
         //MakerSpacesController _controller;
         IMakerSpaceRepo _repo;
         MakerSpacesService _service;
+        
 
         public CreateMakerSpaceTest(){
             var profile = new MakerSpacesProfile();
@@ -55,6 +58,51 @@ namespace FabLabSandboxAPITest
             var result = _service.GetMakerSpaceByName(name);
 
             Assert.Equal(result.MakerSpaceName, name);
+        }
+
+        [Theory]
+        [InlineData("Generic1")]
+        public void CreateMakerSpace_ValidName(string name)
+        {
+            MakerSpaceCreateDto genericSpace = new MakerSpaceCreateDto()
+            {
+                MakerSpaceName = name,
+                MakerSpacePostCode = "3000",
+                MakerSpaceStreet = "Danmarksgade 12",
+                MakerSpaceCity = "Odense"
+            };
+
+            var result = _service.GetMakerSpaceByName(name);
+            Assert.Equal(result.MakerSpaceName, genericSpace.MakerSpaceName);
+        }
+
+        [Theory]
+        [InlineData("2700")]
+        public void GetMakerSpaceByPostCode_Verify(string postCode)
+        {
+            //Arrange
+            var result = _service.GetMakerSpaceByPostCode(postCode);
+
+            //ACT
+            //Postal Code list from spreadsheet.
+            List<string> postalCodes = new List<string>();
+
+            //Read from spreadsheet and store in list.
+            var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                postalCodes.Add(line.Split(';')[0]);
+            }
+            postalCodes.RemoveAt(0);
+
+            string match = postalCodes
+                    .FirstOrDefault(stringToCheck => stringToCheck.Contains(postCode));
+
+            //Fault! result.Value returns null. ActionResult value is through result.Result.Value internally... Shucks.
+            //Assert
+            Assert.Equal(result.MakerSpacePostCode, match);
+
         }
     }
 }

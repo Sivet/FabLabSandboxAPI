@@ -19,4 +19,10 @@
     <ProjectReference Include="..\FabLabSandboxAPI\FabLabSandboxAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="danske-postnumre-byer-1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
