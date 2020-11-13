@@ -30,7 +30,6 @@ namespace FabLabSandboxAPITest
 
             _repo = new MockRepo();
             _service = new MakerSpacesService(_repo, mapper);
-            //_controller = new MakerSpacesController(_service);
             
         }
         [Fact]
