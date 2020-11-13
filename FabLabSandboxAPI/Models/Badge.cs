@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace FabLabSandboxAPI.Models
 {
     public class Badge
     {
         [Key]
-        public int BadgeId { get; set; }
+        public Guid BadgeId { get; set; }
 
         [Required]
         public string Name { get; set; }

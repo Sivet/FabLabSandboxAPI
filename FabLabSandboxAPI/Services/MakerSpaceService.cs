@@ -4,6 +4,7 @@ using FabLabSandboxAPI.Data;
 using AutoMapper;
 using FabLabSandboxAPI.Dtos;
 using Microsoft.AspNetCore.JsonPatch;
+using System;
 
 namespace FabLabSandboxAPI.Services
 {
@@ -24,7 +25,7 @@ namespace FabLabSandboxAPI.Services
             return _mapper.Map<IEnumerable<MakerSpaceReadDto>>(makerSpaces);
         }
         
-        public MakerSpaceReadDto GetMakerSpaceById(int id)
+        public MakerSpaceReadDto GetMakerSpaceById(Guid id)
         {
             var makerSpace = _repo.GetMakerSpaceById(id);
             return _mapper.Map<MakerSpaceReadDto>(makerSpace);
@@ -54,7 +55,7 @@ namespace FabLabSandboxAPI.Services
         }
 
         
-        public bool UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        public bool UpdateMakerSpace(Guid id, MakerSpaceCreateDto MakerSpaceCreateDto)
         {
             var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
             if (MakerSpaceModelFromRepo == null)
@@ -69,27 +70,7 @@ namespace FabLabSandboxAPI.Services
             return true;
         }
 
-        public bool PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc)
-        {
-            /*var MakerSpaceModelFromRepo = _repo.GetMakerSpaceById(id);
-            if (MakerSpaceModelFromRepo == null)
-            {
-                return false;
-            }
-            var MakerSpaceToPatch = _mapper.Map<MakerSpaceUpdateDto>(MakerSpaceModelFromRepo);
-            patchDoc.ApplyTo(MakerSpaceToPatch, ModelState);
-            if (!TryValidateModel(MakerSpaceToPatch))
-            {
-                return ValidationProblem(ModelState);
-            }
-            _mapper.Map(MakerSpaceToPatch, MakerSpaceModelFromRepo);
-            _repo.UpdateMakerSpace(MakerSpaceModelFromRepo);
-            _repo.SaveChanges();*/
-
-            return false;
-        }
-
-        public bool DeleteMakerSpace(int id)
+        public bool DeleteMakerSpace(Guid id)
         {
             var makerSpaceModel = _repo.GetMakerSpaceById(id);
             if (makerSpaceModel == null)

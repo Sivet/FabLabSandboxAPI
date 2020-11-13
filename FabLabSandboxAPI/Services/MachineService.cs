@@ -36,7 +36,7 @@ namespace FabLabSandboxAPI.Services
             /// <summary> This GET method returns search in DB and returns Machine from DB by its ID </summary>
             /// <returns>An MakerSpase</returns>
 
-            public MachineReadDto GetMachineById(int id)
+            public MachineReadDto GetMachineById(Guid id)
             {
                 var Machine = _repo.GetMachineById(id);
                 return _mapper.Map<MachineReadDto>(Machine);
@@ -64,7 +64,7 @@ namespace FabLabSandboxAPI.Services
             }
 
             ///<summary> This PUT method update Machine in DB </summary>
-            public bool UpdateMachine(int id, MachineCreateDto MachineCreateDto)
+            public bool UpdateMachine(Guid id, MachineCreateDto MachineCreateDto)
             {
                 var MachineModelFromRepo = _repo.GetMachineById(id);
                 if (MachineModelFromRepo == null)
@@ -104,7 +104,7 @@ namespace FabLabSandboxAPI.Services
             }*/
 
             /// <summary> This DELETE method delete Machine from DB </summary>
-            public bool  DeleteMachine(int id)
+            public bool  DeleteMachine(Guid id)
             {
                 var MachineModel = _repo.GetMachineById(id);
                 if (MachineModel == null)

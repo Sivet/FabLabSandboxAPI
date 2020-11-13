@@ -40,11 +40,9 @@ namespace FabLabSandboxAPITest
             .And.OnlyHaveUniqueItems();
         }
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void GetMakerSpaceById_Valid(int id){
-            var result = _service.GetMakerSpaceById(id);
+        [InlineData("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200")]
+        public void GetMakerSpaceById_Valid(String id){
+            var result = _service.GetMakerSpaceById(new Guid(id));
 
             result.Should().BeOfType<MakerSpace>().And.NotBeNull();
             result.Id.Should().Be(id);

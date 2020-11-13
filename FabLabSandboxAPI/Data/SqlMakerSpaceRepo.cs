@@ -32,7 +32,7 @@ namespace FabLabSandboxAPI.Data
             //throw new System.NotImplementedException();
         }
 
-        public MakerSpace GetMakerSpaceById(int id)
+        public MakerSpace GetMakerSpaceById(Guid id)
         {
             return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceId == id);
             //throw new System.NotImplementedException();

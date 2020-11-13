@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 namespace FabLabSandboxAPI.Models
 {
     public class MakerSpace
     {
         [Key]
-        public int MakerSpaceId { get; set; }
+        public Guid MakerSpaceId { get; set; }
         [Required]
         [MaxLength(250)]
         public string MakerSpaceName { get; set; }

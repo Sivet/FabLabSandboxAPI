@@ -13,21 +13,21 @@ namespace FabLabSandboxAPI.Data
             makerSpaces = new List<MakerSpace>
             {
                  new MakerSpace{
-                    MakerSpaceId=1, 
+                    MakerSpaceId=new Guid(), 
                     MakerSpaceName="FabLab UCL",
                     /*MakerSpacePostCode="2700",
                     MakerSpaceCity="CityVille",
                     MakerSpaceStreet="StreetStreet"*/
                     },
                  new MakerSpace{
-                    MakerSpaceId=2, 
+                    MakerSpaceId=new Guid(), 
                     MakerSpaceName="BackYardMakerSpace",
                     /*MakerSpacePostCode="5000",
                     MakerSpaceCity="SmallCity",
                     MakerSpaceStreet="TheStreetAle"*/
                     },
                  new MakerSpace {
-                    MakerSpaceId = 3,
+                    MakerSpaceId = new Guid(),
                     MakerSpaceName = "A Third one",
                    /* MakerSpacePostCode="2500",
                     MakerSpaceCity="BigCity",
@@ -60,7 +60,7 @@ namespace FabLabSandboxAPI.Data
             return makerSpaces;
         }
 
-        public MakerSpace GetMakerSpaceById(int id)
+        public MakerSpace GetMakerSpaceById(Guid id)
         {
             foreach (var item in makerSpaces)
             {

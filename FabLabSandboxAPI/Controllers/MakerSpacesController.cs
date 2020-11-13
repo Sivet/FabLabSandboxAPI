@@ -8,6 +8,7 @@ using FabLabSandboxAPI.Services;
 using FabLabSandboxAPI.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
+using System;
 
 namespace FabLabSandboxAPI.Controllers
 { 
@@ -37,7 +38,7 @@ namespace FabLabSandboxAPI.Controllers
         /// <returns>An MakerSpase</returns>
          [Authorize(Roles = UserRoles.Admin)]
          [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
-        public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(int id)
+        public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(Guid id)
         {
             return Ok(_service.GetMakerSpaceById(id));
         }
@@ -63,7 +64,7 @@ namespace FabLabSandboxAPI.Controllers
 
         ///<summary> This PUT method update MakerSpace in DB </summary>
         [HttpPut("{id}")]
-        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        public ActionResult UpdateMakerSpace(Guid id, MakerSpaceCreateDto MakerSpaceCreateDto)
         {
             if (_service.UpdateMakerSpace(id, MakerSpaceCreateDto) == false)
             {
@@ -72,22 +73,9 @@ namespace FabLabSandboxAPI.Controllers
             return NoContent();
         }
 
-        /// <summary> This PUT method partial update MakerSpace (not all but some columns in tabel in DB </summary>
-        //Purtial update
-        //PATCH api/MakerSpace/{id}
-        [HttpPatch("{id}")]
-        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc)
-        {
-            if (_service.PartialMakerSpaceUpdate(id, patchDoc) == false)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
-
         /// <summary> This DELETE method delete MakerSpace from DB </summary>
         [HttpDelete("{id}")]
-        public ActionResult DeleteMakerSpace(int id)
+        public ActionResult DeleteMakerSpace(Guid id)
         {
             if (_service.DeleteMakerSpace(id) == false)
             {

@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace FabLabSandboxAPI.Models
 {
     public class Level
     {
         [Key]
-        public int LevelId { get; set; }
+        public Guid LevelId { get; set; }
 
         [Required]
         public string Name { get; set; }

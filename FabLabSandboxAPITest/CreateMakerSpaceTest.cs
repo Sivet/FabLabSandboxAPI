@@ -42,13 +42,11 @@ namespace FabLabSandboxAPITest
             Assert.Equal(1, 1);
         }
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void GetMakerSpaceById_Valid(int id){
-            var result = _service.GetMakerSpaceById(id);
+        [InlineData("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200")]
+        public void GetMakerSpaceById_Valid(string id){
+            var result = _service.GetMakerSpaceById(new Guid(id));
 
-            Assert.Equal(result.Id, id);
+            Assert.Equal(result.Id.ToString(), id);
         }
         [Theory]
         [InlineData("FabLab UCL")]

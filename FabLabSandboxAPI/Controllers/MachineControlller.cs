@@ -6,6 +6,7 @@ using AutoMapper;
 using FabLabSandboxAPI.Dtos.MachineDto;
 using FabLabSandboxAPI.Services;
 using Microsoft.AspNetCore.JsonPatch;
+using System;
 
 namespace FabLabSandboxAPI.Controllers
 {
@@ -34,7 +35,7 @@ namespace FabLabSandboxAPI.Controllers
         /// <summary> This GET method returns search in DB and returns Machine from DB by its ID </summary>
         /// <returns>An MakerSpase</returns>
         [HttpGet("{id}", Name = "GetMachineById")] //Named so the Post can use it
-        public ActionResult<MachineReadDto> GetMachineById(int id)
+        public ActionResult<MachineReadDto> GetMachineById(Guid id)
         {
             var Machine = _service.GetMachineById(id);
             return Ok(Machine);
@@ -62,7 +63,7 @@ namespace FabLabSandboxAPI.Controllers
 
         ///<summary> This PUT method update Machine in DB </summary>
         [HttpPut("{id}")]
-        public ActionResult UpdateMachine(int id, MachineCreateDto MachineCreateDto)
+        public ActionResult UpdateMachine(Guid id, MachineCreateDto MachineCreateDto)
         {
             if (_service.UpdateMachine(id, MachineCreateDto) == false)
             {
@@ -98,7 +99,7 @@ namespace FabLabSandboxAPI.Controllers
        */
         /// <summary> This DELETE method delete Machine from DB </summary>
         [HttpDelete("{id}")]
-        public ActionResult DeleteMachine(int id)
+        public ActionResult DeleteMachine(Guid id)
         {
            if (_service.DeleteMachine(id) == false)
            {

@@ -7,7 +7,7 @@ namespace FabLabSandboxAPI.Models
     public class Event
     {
         [Key]
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
 
         [Required]
         public DateTime Start { get; set; }

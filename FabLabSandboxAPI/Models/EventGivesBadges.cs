@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace FabLabSandboxAPI.Models
 {
     public class EventGivesBadges
     {
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
         public Event evt { get; set; }
 
         public int BadgeId { get; set; }

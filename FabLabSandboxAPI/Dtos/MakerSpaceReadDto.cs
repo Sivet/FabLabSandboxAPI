@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace FabLabSandboxAPI.Dtos
 {
@@ -6,7 +7,7 @@ namespace FabLabSandboxAPI.Dtos
     {
         /// <summary> Id for found some MakerSpase - DB do it self</summary>
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>Name for create MakerSpase - Required field</summary>
         [Required]
         [MaxLength(250)]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +7,7 @@ namespace FabLabSandboxAPI.Models
     public class Address
     {
         [Key]
-        public int AddressId { get; set; }
+        public Guid AddressId { get; set; }
 
         public string StreetName { get; set; }
 

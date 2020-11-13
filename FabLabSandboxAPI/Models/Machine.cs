@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace FabLabSandboxAPI.Models
 {
     public class Machine
     {
         [Key]
-        public int MachineId { get; set; }
+        public Guid MachineId { get; set; }
 
         [Required]
         [MaxLength(150)]

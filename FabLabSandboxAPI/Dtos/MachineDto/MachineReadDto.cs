@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using FabLabSandboxAPI.Models;
 using Newtonsoft.Json;
+using System;
 
 namespace FabLabSandboxAPI.Dtos.MachineDto
 {
@@ -8,7 +9,7 @@ namespace FabLabSandboxAPI.Dtos.MachineDto
     {
 
         /// <summary> Id for found some MakerSpase - DB do it self</summary>
-        public int MachineId { get; set; }
+        public Guid MachineId { get; set; }
 
         [Required]
         [MaxLength(150)]
