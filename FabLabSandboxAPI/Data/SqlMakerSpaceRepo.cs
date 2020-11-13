@@ -45,7 +45,7 @@ namespace FabLabSandboxAPI.Data
         }
         public MakerSpace GetMakerSpaceByPostCode(string postCode)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpacePostCode == postCode);
+            return _context.MakerSpaces.FirstOrDefault(p => p.ZipCode == postCode);
             //throw new System.NotImplementedException();
         }
 

@@ -45,11 +45,12 @@ namespace FabLabSandboxAPI.Data
             {
                 new MakerSpace
                 {
-                    Id = space.Id,
+                    MakerSpaceId = space.MakerSpaceId,
                     MakerSpaceName = space.MakerSpaceName,
-                    MakerSpacePostCode = space.MakerSpacePostCode,
-                    MakerSpaceCity= space.MakerSpaceCity,
-                    MakerSpaceStreet = space.MakerSpaceStreet,
+                    ZipCode = space.ZipCode,
+                    City= space.City,
+                    StreetName = space.StreetName,
+                    StreetNumber = space.StreetNumber
                 }
             };
         }
@@ -86,7 +87,7 @@ namespace FabLabSandboxAPI.Data
         {
             foreach (var item in makerSpaces)
             {
-                if (postCode == item.MakerSpacePostCode)
+                if (postCode == item.ZipCode)
                 {
                     return item;
                 }
