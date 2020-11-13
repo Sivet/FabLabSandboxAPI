@@ -99,7 +99,6 @@ namespace FabLabSandboxAPITest
             string match = postalCodes
                     .FirstOrDefault(stringToCheck => stringToCheck.Contains(postCode));
 
-            //Fault! result.Value returns null. ActionResult value is through result.Result.Value internally... Shucks.
             //Assert
             Assert.Equal(result.MakerSpacePostCode, match);
 
