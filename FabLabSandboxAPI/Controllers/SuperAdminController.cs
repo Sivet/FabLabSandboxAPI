@@ -21,11 +21,11 @@ namespace FabLabSandboxAPI.Controllers
     public class SuperAdminController : ControllerBase
     {
 
-        private readonly UserManager<AppUser> userManager;
+        private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public SuperAdminController(UserManager<AppUser> userManager,
+        public SuperAdminController(UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -47,7 +47,7 @@ namespace FabLabSandboxAPI.Controllers
                 });
             }
 
-            AppUser user = new AppUser();
+            IdentityUser user = new IdentityUser();
             {
                 user.Email = model.Email;
                 user.UserName = model.UserName;
@@ -113,7 +113,7 @@ namespace FabLabSandboxAPI.Controllers
         }
         
         [HttpGet]
-        public ActionResult<IEnumerable<AppUser>> GetAllUsers()
+        public ActionResult<IEnumerable<IdentityUser>> GetAllUsers()
         {
             var tada = userManager.Users.ToList();
           //  var ShowUsers = _context.Users.ToList();

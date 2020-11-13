@@ -45,7 +45,7 @@ namespace FabLabSandboxAPI
                 opt.UseSqlServer(Configuration.GetConnectionString("AutorConnection")));*/
 
             services.AddControllers();
-            services.AddIdentity<AppUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<MakerSpaceContext>()
                 .AddDefaultTokenProviders();
             //Adding Authentification

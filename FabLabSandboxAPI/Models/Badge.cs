@@ -17,7 +17,7 @@ namespace FabLabSandboxAPI.Models
         public string Image { get; set; }
 
         [Required]
-        public int LevelID { get; set; }
+        public Guid BadgeLevelId { get; set; }
 
         [Required]
         public Level level { get; set; }

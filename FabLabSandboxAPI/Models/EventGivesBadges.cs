@@ -8,7 +8,7 @@ namespace FabLabSandboxAPI.Models
         public Guid EventId { get; set; }
         public Event evt { get; set; }
 
-        public int BadgeId { get; set; }
+        public Guid BadgeId { get; set; }
         public Badge badge { get; set; }
 
 

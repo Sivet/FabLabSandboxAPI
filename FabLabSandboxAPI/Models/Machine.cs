@@ -19,7 +19,7 @@ namespace FabLabSandboxAPI.Models
         public string MachineDescription { get; set; }
 
         [Required]
-        public int MakerSpaceId { get; set; }
+        public Guid MakerSpaceId { get; set; }
         [Required]
         public MakerSpace MakerSpace { get; set; }
     }

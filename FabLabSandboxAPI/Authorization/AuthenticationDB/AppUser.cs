@@ -10,10 +10,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FabLabSandboxAPI.Authorization.AuthenticationDB
 {
-    public class AppUser : IdentityUser
+    public class AppUser
     {
-        public ICollection<MakerSpaceHasUser> MakerSpaces { get; set; }
-        public ICollection<UserEarnedBadges> BadgesEarned { get; set; }
-        public ICollection<UserAttendingEvent> Events { get; set; }
+        
     }
 }

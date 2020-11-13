@@ -20,11 +20,11 @@ namespace FabLabSandboxAPI.Controllers
     public class AuthenticationController : ControllerBase
     {
 
-        private readonly UserManager<AppUser> userManager;
+        private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager,
+        public AuthenticationController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -47,7 +47,7 @@ namespace FabLabSandboxAPI.Controllers
                 });
             }
 
-            AppUser user = new AppUser();
+            IdentityUser user = new IdentityUser();
             {
                 user.Email = model.Email;
                 user.UserName = model.UserName;
@@ -127,7 +127,7 @@ namespace FabLabSandboxAPI.Controllers
                 });
             }
 
-            AppUser user = new AppUser();
+            IdentityUser user = new IdentityUser();
             {
                 user.Email = model.Email;
                 user.UserName = model.UserName;

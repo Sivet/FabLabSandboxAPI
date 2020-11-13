@@ -1,11 +1,12 @@
 using FabLabSandboxAPI.Authorization.AuthenticationDB;
 using FabLabSandboxAPI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FabLabSandboxAPI.Data
 {
-    public class MakerSpaceContext : IdentityDbContext<AppUser>
+    public class MakerSpaceContext : IdentityDbContext
     {
         public MakerSpaceContext(DbContextOptions<MakerSpaceContext> opt) : base(opt)
         {
@@ -15,7 +16,7 @@ namespace FabLabSandboxAPI.Data
         public DbSet<Machine> Machines {get; set;}
         public DbSet<Event> Events {get; set;}
         public DbSet<Badge> Badges {get; set;}
-        public DbSet<AppUser> User {get; set;}
+        public DbSet<IdentityUser> User {get; set;}
         public DbSet<EventGivesBadges> eventGivesBadges {get; set;}
         public DbSet<MakerSpaceHasUser> makerSpaceHasUser {get; set;}
         public DbSet<UserAttendingEvent> userAttendingEvent {get; set;}
@@ -28,9 +29,9 @@ namespace FabLabSandboxAPI.Data
             .HasDefaultValueSql("0");
 
             modelBuilder.Entity<EventGivesBadges>().HasKey(sc => new { sc.EventId, sc.BadgeId });
-            modelBuilder.Entity<MakerSpaceHasUser>().HasKey(sc => new { sc.MakerSpaceId, sc.UserId });
-            modelBuilder.Entity<UserAttendingEvent>().HasKey(sc => new { sc.UserId, sc.EventId });
-            modelBuilder.Entity<UserEarnedBadges>().HasKey(sc => new { sc.UserId, sc.BadgeId });
+            modelBuilder.Entity<MakerSpaceHasUser>().HasKey(sc => new { sc.MakerSpaceId, sc.memberId });
+            modelBuilder.Entity<UserAttendingEvent>().HasKey(sc => new { sc.memberId, sc.EventId });
+            modelBuilder.Entity<UserEarnedBadges>().HasKey(sc => new { sc.memberId, sc.BadgeId });
         }
     }
 }
