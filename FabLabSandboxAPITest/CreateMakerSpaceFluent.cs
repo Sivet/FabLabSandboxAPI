@@ -47,7 +47,7 @@ namespace FabLabSandboxAPITest
         public void GetMakerSpaceById_Valid(int id){
             var result = _service.GetMakerSpaceById(id);
 
-            result.Should().BeOfType<MakerSpace>().And.NotBeNull().And.Be(result.Id, x => x.id == id);
+            result.Should().BeOfType<MakerSpace>().And.NotBeNull();
             result.Id.Should().Be(id);
         }
         [Theory]
