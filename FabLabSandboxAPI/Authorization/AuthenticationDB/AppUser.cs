@@ -14,7 +14,6 @@ namespace FabLabSandboxAPI.Authorization.AuthenticationDB
     {
         public ICollection<MakerSpaceHasUser> MakerSpaces { get; set; }
         public ICollection<UserEarnedBadges> BadgesEarned { get; set; }
-
         public ICollection<UserAttendingEvent> Events { get; set; }
     }
 }
