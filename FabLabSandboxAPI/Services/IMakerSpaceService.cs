@@ -12,7 +12,7 @@ namespace FabLabSandboxAPI.Services
     {
         IEnumerable<MakerSpaceReadDto> GetAllMakerSpaces();
 
-        MakerSpaceReadDto GetMakerSpaceById(int id);
+        MakerSpaceReadDto GetMakerSpaceById(Guid id);
 
         MakerSpaceReadDto GetMakerSpaceByName(string name);
 
@@ -20,10 +20,8 @@ namespace FabLabSandboxAPI.Services
 
         MakerSpaceReadDto CreateMakerSpace(MakerSpaceCreateDto createDto);
 
-        bool UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto);
+        bool UpdateMakerSpace(Guid id, MakerSpaceCreateDto MakerSpaceCreateDto);
 
-        bool PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc);
-
-        bool DeleteMakerSpace(int id);
+        bool DeleteMakerSpace(Guid id);
     }
 }
