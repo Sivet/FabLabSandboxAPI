@@ -38,6 +38,12 @@ namespace FabLabSandboxAPI.Services
             return _mapper.Map<MakerSpaceReadDto>(makerSpace);
         }
 
+        public MakerSpaceReadDto GetMakerSpaceByPostCode(string postCode)
+        {
+            var makerSpace = _repo.GetMakerSpaceByPostCode(postCode);
+            return _mapper.Map<MakerSpaceReadDto>(makerSpace);
+        }
+
         
         public MakerSpaceReadDto CreateMakerSpace(MakerSpaceCreateDto createDto)
         {

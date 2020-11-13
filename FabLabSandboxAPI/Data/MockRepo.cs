@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using FabLabSandboxAPI.Models;
 
 namespace FabLabSandboxAPI.Data
@@ -6,18 +8,19 @@ namespace FabLabSandboxAPI.Data
     public class MockRepo : IMakerSpaceRepo
     {
         private readonly IEnumerable<MakerSpace> makerSpaces;
-        public MockRepo(){
+        public MockRepo()
+        {
             makerSpaces = new List<MakerSpace>
             {
                  new MakerSpace{
-                    Id=1, 
+                    Id=1,
                     MakerSpaceName="FabLab UCL",
                     MakerSpacePostCode="2700",
                     MakerSpaceCity="CityVille",
                     MakerSpaceStreet="StreetStreet"
                     },
                  new MakerSpace{
-                    Id=2, 
+                    Id=2,
                     MakerSpaceName="BackYardMakerSpace",
                     MakerSpacePostCode="5000",
                     MakerSpaceCity="SmallCity",
@@ -33,7 +36,21 @@ namespace FabLabSandboxAPI.Data
         }
         public void CreateMakerSpace(MakerSpace space)
         {
-            throw new System.NotImplementedException();
+            if (space == null)
+            {
+                throw new ArgumentNullException(nameof(space));
+            }
+            IEnumerable<MakerSpace> makerSpaceToCreate = new List<MakerSpace>
+            {
+                new MakerSpace
+                {
+                    Id = space.Id,
+                    MakerSpaceName = space.MakerSpaceName,
+                    MakerSpacePostCode = space.MakerSpacePostCode,
+                    MakerSpaceCity= space.MakerSpaceCity,
+                    MakerSpaceStreet = space.MakerSpaceStreet,
+                }
+            };
         }
 
         public IEnumerable<MakerSpace> GetAllMakerSpaces()
@@ -45,7 +62,8 @@ namespace FabLabSandboxAPI.Data
         {
             foreach (var item in makerSpaces)
             {
-                if(id == item.Id){
+                if (id == item.Id)
+                {
                     return item;
                 }
             }
@@ -56,7 +74,20 @@ namespace FabLabSandboxAPI.Data
         {
             foreach (var item in makerSpaces)
             {
-                if(name == item.MakerSpaceName){
+                if (name == item.MakerSpaceName)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public MakerSpace GetMakerSpaceByPostCode(string postCode)
+        {
+            foreach (var item in makerSpaces)
+            {
+                if (postCode == item.MakerSpacePostCode)
+                {
                     return item;
                 }
             }
