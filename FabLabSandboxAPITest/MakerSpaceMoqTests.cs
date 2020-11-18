@@ -42,9 +42,11 @@ namespace FabLabSandboxAPITest
 
             //ACT
             _service.Setup(x => x.CreateMakerSpace(dto));
+            var mkrSpace = _service.Object.GetMakerSpaceById(id);
 
             //ASSERT
             _service.Verify(e => e.GetMakerSpaceById(id), Times.Once);
+            Assert.Equal(mkrSpace.Id, id);
         }
     }
 }
