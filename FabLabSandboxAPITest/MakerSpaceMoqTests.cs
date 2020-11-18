@@ -16,7 +16,6 @@ namespace FabLabSandboxAPITest
     public class MakerSpaceMoqTests
     {
         Mapper mapper;
-        Mock _service;
         Mock _repo = new Mock<IMakerSpaceRepo>();
         MakerSpacesProfile profile = new MakerSpacesProfile();
         MapperConfiguration configuration;
@@ -28,21 +27,24 @@ namespace FabLabSandboxAPITest
         }
 
         [Theory]
-        [InlineData(1)]
-        public void GetMakerSpaceById_ShouldReturnMakerSpace_WhenIdExists(int id)
+        [InlineData("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200")]
+        public void GetMakerSpaceById_ShouldReturnMakerSpace_WhenIdExists(Guid id)
         {
             //ARRANGE
-            //_service = new Mock<IMakerSpaceService>()
-            //    .Setup(x => x.GetMakerSpaceById(It.IsAny<int>()))
-            //    .Returns(/*TODO*/);
-            
+            var _service = new Mock<IMakerSpaceService>();
+            MakerSpaceCreateDto dto = new MakerSpaceCreateDto()
+            {
+                MakerSpaceCity = "OdenseMoq",
+                MakerSpaceName = "MoqSpace",
+                MakerSpacePostCode = "5000",
+                MakerSpaceStreet = "Seebladsgade"
+            };
 
             //ACT
-
+            _service.Setup(x => x.CreateMakerSpace(dto));
 
             //ASSERT
-
-
+            _service.Verify(e => e.GetMakerSpaceById(id), Times.Once);
         }
     }
 }
