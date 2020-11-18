@@ -40,7 +40,13 @@ namespace FabLabSandboxAPI.Controllers
          [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(Guid id)
         {
-            return Ok(_service.GetMakerSpaceById(id));
+            try{
+                return Ok(_service.GetMakerSpaceById(id));
+            }
+            catch(Exception e){
+                
+            }
+            return NotFound();
         }
 
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>

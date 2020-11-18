@@ -21,57 +21,80 @@ namespace FabLabSandboxAPITest
     public class CreateMakerSpaceTest
     {
         //MakerSpacesController _controller;
-        IMakerSpaceRepo _repo;
+        Mock<IMakerSpaceRepo> _repo;
         MakerSpacesService _service;
+        Mapper mapper;
         
-
         public CreateMakerSpaceTest(){
             var profile = new MakerSpacesProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
-            var mapper = new Mapper(configuration);
+             mapper = new Mapper(configuration);
 
-            _repo = new MockRepo();
-            _service = new MakerSpacesService(_repo, mapper);
-            //_controller = new MakerSpacesController(_service);
+            _repo = new Mock<IMakerSpaceRepo>();//MockRepo();'
+            
+            _service = new MakerSpacesService(_repo.Object, mapper);
             
         }
         [Fact]
         public void GetAllMakerSpaces_Valid(){
             var result = _service.GetAllMakerSpaces();
 
-            Assert.Equal(1, 1);
-        }
-        [Theory]
-        [InlineData("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200")]
-        public void GetMakerSpaceById_Valid(string id){
-            var result = _service.GetMakerSpaceById(new Guid(id));
-
-            Assert.Equal(result.Id.ToString(), id);
+            _repo.Verify(x => x.GetAllMakerSpaces(), Times.Once);
         }
         [Theory]
         [InlineData("FabLab UCL")]
         [InlineData("BackYardMakerSpace")]
         [InlineData("A Third one")]
-        public void GetMakerSpaceByName_Valid(string name){
-            var result = _service.GetMakerSpaceByName(name);
+        public void GetMakerSpaceById_Exists(string name){
+            Guid id = Guid.NewGuid();
+            _repo.Setup(repo => repo.GetMakerSpaceById(id)).Returns(
+                new MakerSpace(){
+                    MakerSpaceId = id,
+                    MakerSpaceName = name
+                }
+            );
+
+            var result = _service.GetMakerSpaceById(id);
 
             Assert.Equal(result.MakerSpaceName, name);
         }
+        [Theory]
+        [InlineData("FabLab UCL")]
+        [InlineData("BackYardMakerSpace")]
+        [InlineData("A Third one")]
+        public void GetMakerSpaceById_NotExists(string name){
+            Guid id = Guid.NewGuid();
+            _repo.Setup(repo => repo.GetMakerSpaceById(id)).Returns(
+                new MakerSpace(){
+                    MakerSpaceId = id,
+                    MakerSpaceName = name
+                }
+            );
+            MakerSpaceReadDto result = null;
+            try{
+                result = _service.GetMakerSpaceById(new Guid("451dd7c8-b533-4c43-ac0b-582b1d1a37eb"));
+            }
+            catch(Exception e){
+                Assert.IsType(typeof(NullReferenceException), e);
+            }
+            Assert.Equal(result, null);
+        }
 
         [Theory]
-        [InlineData("Generic1")]
-        public void CreateMakerSpace_ValidName(string name)
-        {
-            MakerSpaceCreateDto genericSpace = new MakerSpaceCreateDto()
-            {
-                MakerSpaceName = name,
-                MakerSpacePostCode = "3000",
-                MakerSpaceStreet = "Danmarksgade 12",
-                MakerSpaceCity = "Odense"
-            };
+        [InlineData("FabLab UCL")]
+        [InlineData("BackYardMakerSpace")]
+        [InlineData("A Third one")]
+        public void GetMakerSpaceByName_Exists(string name){
+            _repo.Setup(repo => repo.GetMakerSpaceByName(name)).Returns(
+                new MakerSpace(){
+                    MakerSpaceName = name
+                }
+            );
 
             var result = _service.GetMakerSpaceByName(name);
-            Assert.Equal(result.MakerSpaceName, genericSpace.MakerSpaceName);
+
+            _repo.Verify(repo => repo.GetMakerSpaceByName(name), Times.Once);
+            Assert.Equal(result.MakerSpaceName, name);
         }
 
         [Theory]
@@ -86,7 +109,8 @@ namespace FabLabSandboxAPITest
             List<string> postalCodes = new List<string>();
 
             //Read from spreadsheet and store in list.
-            var reader = new StreamReader(File.OpenRead(@"C:\Users\AsbjoernLaptop\Documents\GitHub\FabLabSandboxAPI\FabLabSandboxAPITest\danske-postnumre-byer-1.csv"));
+            var path = System.IO.Directory.GetCurrentDirectory(); //Finds build folder with compiled files
+            var reader = new StreamReader(File.OpenRead(path + "/danske-postnumre-byer-1.csv"));
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
