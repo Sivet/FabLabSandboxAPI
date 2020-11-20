@@ -19,16 +19,18 @@ namespace FabLabSandboxAPITest
         Mock _repo = new Mock<IMakerSpaceRepo>();
         MakerSpacesProfile profile = new MakerSpacesProfile();
         MapperConfiguration configuration;
-        
+        Mock _service;
+
         public MakerSpaceMoqTests()
         {
             configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             mapper = new Mapper(configuration);
+            _service = new Mock<IMakerSpaceService>();
         }
 
         [Theory]
-        [InlineData("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200")]
-        public void GetMakerSpaceById_ShouldReturnMakerSpace_WhenIdExists(Guid id)
+        [InlineData("MoqSpace")]
+        public void GetMakerSpaceById_ShouldReturnMakerSpace_WhenNameExists(string name)
         {
             //ARRANGE
             var _service = new Mock<IMakerSpaceService>();
@@ -40,13 +42,38 @@ namespace FabLabSandboxAPITest
                 MakerSpaceStreet = "Seebladsgade"
             };
 
+            MakerSpaceReadDto dtoRead = new MakerSpaceReadDto()
+            {
+                Id = new Guid(),
+                MakerSpaceCity = "OdenseMoq",
+                MakerSpaceName = "MoqSpace",
+                MakerSpacePostCode = "5000",
+                MakerSpaceStreet = "Seebladsgade"
+            };
+
             //ACT
-            _service.Setup(x => x.CreateMakerSpace(dto));
-            var mkrSpace = _service.Object.GetMakerSpaceById(id);
+            _service.Setup(x => x.CreateMakerSpace(dto)).Returns(dtoRead);
 
             //ASSERT
-            _service.Verify(e => e.GetMakerSpaceById(id), Times.Once);
-            Assert.Equal(mkrSpace.Id, id);
+            //_service.Verify(e => e.GetMakerSpaceByName(name), Times.Once);
+            Assert.Equal(_service.Object.GetMakerSpaceByName(name).MakerSpaceName, name);
+        }
+
+        [Fact]
+        void GetMakerSpaceByGuid_Valid()
+        {
+            //arr
+            Guid id = Guid.NewGuid();
+            var _repo = new Mock<IMakerSpaceRepo>();
+            _repo.Setup(x => x.GetMakerSpaceById(id)).Returns(new MakerSpace()
+            {
+                MakerSpaceId = id
+            });
+
+            //act
+            //var result = 
+
+            //ass
         }
     }
 }
