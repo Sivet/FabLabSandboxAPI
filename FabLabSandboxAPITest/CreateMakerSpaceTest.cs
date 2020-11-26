@@ -28,7 +28,7 @@ namespace FabLabSandboxAPITest
         public CreateMakerSpaceTest(){
             var profile = new MakerSpacesProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
-             mapper = new Mapper(configuration);
+            mapper = new Mapper(configuration);
 
             _repo = new Mock<IMakerSpaceRepo>();//MockRepo();'
             
