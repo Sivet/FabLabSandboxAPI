@@ -108,7 +108,6 @@ namespace FabLabSandboxAPI.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                 });
             }
-
             return Unauthorized();
         }
 

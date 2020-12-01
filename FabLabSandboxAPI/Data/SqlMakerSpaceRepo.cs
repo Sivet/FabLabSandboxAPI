@@ -23,6 +23,7 @@ namespace FabLabSandboxAPI.Data
             {
                 throw new ArgumentNullException(nameof(space));
             }
+            space.MakerSpaceId = Guid.NewGuid(); //maybe bad idea, db does it anyway.
             _context.Add(space);
         }
 

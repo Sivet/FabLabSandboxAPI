@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using FabLabSandboxAPI.Models;
 
@@ -17,8 +18,7 @@ namespace FabLabSandboxAPI.Dtos.MachineDto
         public string MachineDescription { get; set; }
 
         [Required]
-        public int MakerSpaceId { get; set; }
-
+        public Guid MakerSpaceId { get; set; }
 
     }
 }

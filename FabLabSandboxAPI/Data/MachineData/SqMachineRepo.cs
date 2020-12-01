@@ -24,6 +24,7 @@ namespace FabLabSandboxAPI.Data.MachineData
             if(space == null){
                 throw new ArgumentNullException(nameof(space));
             }
+            space.MachineId = Guid.NewGuid();
             _context.Add(space);
         }
 

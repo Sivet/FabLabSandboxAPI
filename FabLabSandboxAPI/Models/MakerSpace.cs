@@ -27,11 +27,6 @@ namespace FabLabSandboxAPI.Models
 
         public bool? IsAccepted { get; set; } = false;
 
-        /*[Required]
-        public int MakerAddressId { get; set; }
-        [Required]
-        public Address MakerSpaceAdress { get; set; }*/
-
         public ICollection<Machine> Machines { get; set; }
 
         public ICollection<Event> EventsAtMakerSpace { get; set; }

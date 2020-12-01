@@ -13,7 +13,7 @@ using FabLabSandboxAPI.Dtos;
 
 namespace FabLabSandboxAPITest
 {
-    public class MakerSpaceMoqTests
+    /*public class MakerSpaceMoqTests
     {
         Mapper mapper;
         Mock _repo = new Mock<IMakerSpaceRepo>();
@@ -75,6 +75,6 @@ namespace FabLabSandboxAPITest
 
             //ass
         }
-    }
+    }*/
 }
 
