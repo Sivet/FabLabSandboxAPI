@@ -13,17 +13,22 @@ namespace FabLabSandboxAPI.Dtos
         /// <summary> PostCode for create MakerSpase - Required field</summary>
         [Required]
         [MaxLength(4)]
-        public string MakerSpacePostCode { get; set; }
+        public string ZipCode { get; set; }
 
         /// <summary> Street for create MakerSpase - Required field</summary>
         [Required]
         [MaxLength(100)]
-        public string MakerSpaceStreet { get; set; }
+        public string StreetName { get; set; }
+
+        /// <summary> Street for create MakerSpase - Required field</summary>
+        [Required]
+        [MaxLength(100)]
+        public string StreetNumber { get; set; }
 
         /// <summary>City for create MakerSpase - Required field</summary>
         [Required]
         [MaxLength(250)]
-        public string MakerSpaceCity { get; set; }
+        public string City { get; set; }
 
     }
 }

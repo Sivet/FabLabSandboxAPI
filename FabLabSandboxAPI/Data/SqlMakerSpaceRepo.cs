@@ -23,6 +23,7 @@ namespace FabLabSandboxAPI.Data
             {
                 throw new ArgumentNullException(nameof(space));
             }
+            space.MakerSpaceId = Guid.NewGuid(); //maybe bad idea, db does it anyway.
             _context.Add(space);
         }
 
@@ -32,15 +33,20 @@ namespace FabLabSandboxAPI.Data
             //throw new System.NotImplementedException();
         }
 
-        public MakerSpace GetMakerSpaceById(int id)
+        public MakerSpace GetMakerSpaceById(Guid id)
         {
-            return _context.MakerSpaces.FirstOrDefault(p => p.Id == id);
+            return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceId == id);
             //throw new System.NotImplementedException();
         }
 
         public MakerSpace GetMakerSpaceByName(string name)
         {
             return _context.MakerSpaces.FirstOrDefault(p => p.MakerSpaceName == name);
+            //throw new System.NotImplementedException();
+        }
+        public MakerSpace GetMakerSpaceByPostCode(string postCode)
+        {
+            return _context.MakerSpaces.FirstOrDefault(p => p.ZipCode == postCode);
             //throw new System.NotImplementedException();
         }
 

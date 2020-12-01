@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabLabSandboxAPI", "FabLabS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75D0C81F-44B3-461D-A5AC-26F0A19FC6C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabLabSandboxAPITest", "FabLabSandboxAPITest\FabLabSandboxAPITest.csproj", "{B32C7B96-47E3-406D-93F3-B59ACD8942A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabLabSandboxAPITest", "FabLabSandboxAPITest\FabLabSandboxAPITest.csproj", "{B32C7B96-47E3-406D-93F3-B59ACD8942A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

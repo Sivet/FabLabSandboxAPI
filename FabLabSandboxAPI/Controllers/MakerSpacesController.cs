@@ -1,16 +1,20 @@
 using System.Collections.Generic;
+using FabLabSandboxAPI.Authorization.AuthServises;
 using Microsoft.AspNetCore.Mvc;
 using FabLabSandboxAPI.Services;
 //using FabLabSandboxAPI.Models;
 //using FabLabSandboxAPI.Data;
 //using AutoMapper;
 using FabLabSandboxAPI.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
+using System;
 
 namespace FabLabSandboxAPI.Controllers
-{
-
+{ 
     /// <summary>Controller responsible for GET/POST/DELETE for managing MakerSpace </summary>
+ 
+  //[Authorize]
     [ApiController]
     [Route("api/MakerSpaces")]
     public class MakerSpacesController : ControllerBase
@@ -32,14 +36,22 @@ namespace FabLabSandboxAPI.Controllers
         }
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its ID </summary>
         /// <returns>An MakerSpase</returns>
-        [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
-        public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(int id)
+         [Authorize(Roles = UserRoles.Admin)]
+         [HttpGet("{id}", Name = "GetMakerSpaceById")] //Named so the Post can use it
+        public ActionResult<MakerSpaceReadDto> GetMakerSpaceById(Guid id)
         {
-            return Ok(_service.GetMakerSpaceById(id));
+            try{
+                return Ok(_service.GetMakerSpaceById(id));
+            }
+            catch(Exception e){
+                
+            }
+            return NotFound();
         }
 
         /// <summary> This GET method returns search in DB and returns MakerSpace from DB by its name </summary>
         /// <returns>An MakerSpase</returns>
+       
         [HttpGet("name/{name}")]
         public ActionResult<MakerSpaceReadDto> GetMakerSpaceByName(string name)
         {
@@ -58,7 +70,7 @@ namespace FabLabSandboxAPI.Controllers
 
         ///<summary> This PUT method update MakerSpace in DB </summary>
         [HttpPut("{id}")]
-        public ActionResult UpdateMakerSpace(int id, MakerSpaceCreateDto MakerSpaceCreateDto)
+        public ActionResult UpdateMakerSpace(Guid id, MakerSpaceCreateDto MakerSpaceCreateDto)
         {
             if (_service.UpdateMakerSpace(id, MakerSpaceCreateDto) == false)
             {
@@ -67,22 +79,9 @@ namespace FabLabSandboxAPI.Controllers
             return NoContent();
         }
 
-        /// <summary> This PUT method partial update MakerSpace (not all but some columns in tabel in DB </summary>
-        //Purtial update
-        //PATCH api/MakerSpace/{id}
-        [HttpPatch("{id}")]
-        public ActionResult PartialMakerSpaceUpdate(int id, JsonPatchDocument<MakerSpaceUpdateDto> patchDoc)
-        {
-            if (_service.PartialMakerSpaceUpdate(id, patchDoc) == false)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
-
         /// <summary> This DELETE method delete MakerSpace from DB </summary>
         [HttpDelete("{id}")]
-        public ActionResult DeleteMakerSpace(int id)
+        public ActionResult DeleteMakerSpace(Guid id)
         {
             if (_service.DeleteMakerSpace(id) == false)
             {
@@ -90,6 +89,5 @@ namespace FabLabSandboxAPI.Controllers
             }
             return NoContent();
         }
-
     }
 }

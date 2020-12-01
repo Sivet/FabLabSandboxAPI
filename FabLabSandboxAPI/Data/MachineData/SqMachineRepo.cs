@@ -24,6 +24,7 @@ namespace FabLabSandboxAPI.Data.MachineData
             if(space == null){
                 throw new ArgumentNullException(nameof(space));
             }
+            space.MachineId = Guid.NewGuid();
             _context.Add(space);
         }
 
@@ -34,9 +35,9 @@ namespace FabLabSandboxAPI.Data.MachineData
             //throw new System.NotImplementedException();
         }
 
-        public Machine GetMachineById(int id)
+        public Machine GetMachineById(Guid id)
         {
-            return _context.Machines.FirstOrDefault(p => p.MachineId == id);
+            return _context.Machines.Include(x => x.MakerSpace).FirstOrDefault(p => p.MachineId == id);
             //throw new System.NotImplementedException();
         }
 

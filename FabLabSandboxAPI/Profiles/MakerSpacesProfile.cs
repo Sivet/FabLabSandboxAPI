@@ -10,17 +10,14 @@ namespace FabLabSandboxAPI.Profiles
         {
             //Source -> Target
             CreateMap<MakerSpace, MakerSpaceReadDto>();
-
-            //Target -> Source
-            CreateMap<MakerSpaceCreateDto, MakerSpace>();
-
-            CreateMap<MakerSpaceUpdateDto, MakerSpace>();
+            CreateMap<Machine, MachineReadDto>();
             CreateMap<MakerSpace, MakerSpaceUpdateDto>();
             CreateMap<MakerSpace, MakerSpaceIdReadDto>();
 
-            CreateMap<Machine,MachineReadDto>();
-            CreateMap<MachineCreateDto,Machine>();
-
+            //Target -> Source
+            CreateMap<MakerSpaceCreateDto, MakerSpace>();
+            CreateMap<MakerSpaceUpdateDto, MakerSpace>();
+            CreateMap<MachineCreateDto, Machine>();
 
         }
     }

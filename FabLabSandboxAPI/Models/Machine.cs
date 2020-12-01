@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace FabLabSandboxAPI.Models
 {
     public class Machine
     {
         [Key]
-        public int MachineId { get; set; }
+        public Guid MachineId { get; set; }
 
         [Required]
         [MaxLength(150)]
@@ -18,9 +19,8 @@ namespace FabLabSandboxAPI.Models
         public string MachineDescription { get; set; }
 
         [Required]
-
-        //mayby it not neaded - just take usual prop -collumn - from DB???
-        public int MakerSpaceId { get; set; }
+        public Guid MakerSpaceId { get; set; }
+        [Required]
         public MakerSpace MakerSpace { get; set; }
     }
 }
