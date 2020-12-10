@@ -20,7 +20,6 @@ namespace FabLabSandboxAPITest
 {
     public class CreateMakerSpaceTest
     {
-        //MakerSpacesController _controller;
         Mock<IMakerSpaceRepo> _repo;
         MakerSpaceService _service;
         Mapper mapper;
@@ -46,6 +45,7 @@ namespace FabLabSandboxAPITest
         [InlineData("BackYardMakerSpace")]
         [InlineData("A Third one")]
         public void GetMakerSpaceById_Exists(string name){
+            //Arrange
             Guid id = Guid.NewGuid();
             _repo.Setup(repo => repo.GetMakerSpaceById(id)).Returns(
                 new MakerSpace(){
@@ -54,8 +54,10 @@ namespace FabLabSandboxAPITest
                 }
             );
 
+            //Act
             var result = _service.GetMakerSpaceById(id);
 
+            //Assert
             Assert.Equal(result.MakerSpaceName, name);
         }
         [Theory]
@@ -70,13 +72,11 @@ namespace FabLabSandboxAPITest
                     MakerSpaceName = name
                 }
             );
+
             MakerSpaceReadDto result = null;
-            try{
-                result = _service.GetMakerSpaceById(new Guid("451dd7c8-b533-4c43-ac0b-582b1d1a37eb"));
-            }
-            catch(Exception e){
-                Assert.IsType(typeof(NullReferenceException), e);
-            }
+
+            Assert.Throws<NullReferenceException>(
+                () => result = _service.GetMakerSpaceById(Guid.NewGuid()));
             Assert.Equal(result, null);
         }
 
