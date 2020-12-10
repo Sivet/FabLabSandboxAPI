@@ -19,11 +19,9 @@ namespace FabLabSandboxAPI.Controllers
     [Route("api/MakerSpaces")]
     public class MakerSpacesController : ControllerBase
     {
-        /*private readonly IMakerSpaceRepo _repo;
-        private readonly IMapper _mapper;*/
-        MakerSpacesService _service; //Should be interface
+        IMakerSpaceService _service;
 
-        public MakerSpacesController(MakerSpacesService service)
+        public MakerSpacesController(IMakerSpaceService service)
         {
             _service = service;
         }

@@ -21,7 +21,7 @@ namespace FabLabSandboxAPITest
     {
         //MakerSpacesController _controller;
         IMakerSpaceRepo _repo;
-        MakerSpacesService _service;
+        MakerSpaceService _service;
 
         public CreateMakerSpaceFluent(){
             var profile = new MakerSpacesProfile();
@@ -29,7 +29,7 @@ namespace FabLabSandboxAPITest
             var mapper = new Mapper(configuration);
 
             _repo = new MockRepo();
-            _service = new MakerSpacesService(_repo, mapper);
+            _service = new MakerSpaceService(_repo, mapper);
             
         }
         [Fact]

@@ -9,12 +9,12 @@ using System;
 namespace FabLabSandboxAPI.Services
 {
 
-    public class MakerSpacesService : IMakerSpaceService
+    public class MakerSpaceService : IMakerSpaceService
     {
         private readonly IMakerSpaceRepo _repo;
         private readonly IMapper _mapper;
 
-        public MakerSpacesService(IMakerSpaceRepo repo, IMapper mapper)
+        public MakerSpaceService(IMakerSpaceRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;

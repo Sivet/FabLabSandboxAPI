@@ -80,7 +80,7 @@ namespace FabLabSandboxAPI
 
             services.AddScoped<IMakerSpaceRepo, SqlMakerSpaceRepo>(); // needed
             services.AddScoped<IMachineRepo, SqlMachineRepo>();       // needed
-            services.AddScoped<MakerSpacesService>();
+            services.AddScoped<IMakerSpaceService, MakerSpaceService>();
             services.AddScoped<MachineService>();
 
             //Add Swagger
