@@ -11,7 +11,7 @@ namespace FabLabSandboxAPITest
     public class AddUserToMakerSpaceTest
     {
         IMakerSpaceRepo _repo;
-        MakerSpacesService _service;
+        MakerSpaceService _service;
 
         public AddUserToMakerSpaceTest()
         {
@@ -20,7 +20,7 @@ namespace FabLabSandboxAPITest
             var mapper = new Mapper(configuration);
 
             _repo = new MockRepo();
-            _service = new MakerSpacesService(_repo, mapper);
+            _service = new MakerSpaceService(_repo, mapper);
         }
 
         public void AddUserToMakerSpace_ShouldFail()

@@ -22,7 +22,7 @@ namespace FabLabSandboxAPITest
     {
         //MakerSpacesController _controller;
         Mock<IMakerSpaceRepo> _repo;
-        MakerSpacesService _service;
+        MakerSpaceService _service;
         Mapper mapper;
         
         public CreateMakerSpaceTest(){
@@ -32,7 +32,7 @@ namespace FabLabSandboxAPITest
 
             _repo = new Mock<IMakerSpaceRepo>();//MockRepo();'
             
-            _service = new MakerSpacesService(_repo.Object, mapper);
+            _service = new MakerSpaceService(_repo.Object, mapper);
             
         }
         [Fact]
