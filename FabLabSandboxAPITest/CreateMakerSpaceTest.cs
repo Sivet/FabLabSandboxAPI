@@ -20,73 +20,40 @@ namespace FabLabSandboxAPITest
 {
     public class CreateMakerSpaceTest
     {
-        //MakerSpacesController _controller;
         Mock<IMakerSpaceRepo> _repo;
         MakerSpaceService _service;
-        Mapper mapper;
-        
-        public CreateMakerSpaceTest(){
+        Mapper _mapper;
+
+        public CreateMakerSpaceTest()
+        {
             var profile = new MakerSpacesProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
-            mapper = new Mapper(configuration);
+            _mapper = new Mapper(configuration);
 
-            _repo = new Mock<IMakerSpaceRepo>();//MockRepo();'
-            
-            _service = new MakerSpaceService(_repo.Object, mapper);
-            
+            _repo = new Mock<IMakerSpaceRepo>();//MockRepo();
+
+            _service = new MakerSpaceService(_repo.Object, _mapper);
+
         }
+
         [Fact]
-        public void GetAllMakerSpaces_Valid(){
+        public void GetAllMakerSpaces_CalledOnceValid()
+        {
             var result = _service.GetAllMakerSpaces();
 
+            Assert.NotNull(result);
             _repo.Verify(x => x.GetAllMakerSpaces(), Times.Once);
         }
-        [Theory]
-        [InlineData("FabLab UCL")]
-        [InlineData("BackYardMakerSpace")]
-        [InlineData("A Third one")]
-        public void GetMakerSpaceById_Exists(string name){
-            Guid id = Guid.NewGuid();
-            _repo.Setup(repo => repo.GetMakerSpaceById(id)).Returns(
-                new MakerSpace(){
-                    MakerSpaceId = id,
-                    MakerSpaceName = name
-                }
-            );
-
-            var result = _service.GetMakerSpaceById(id);
-
-            Assert.Equal(result.MakerSpaceName, name);
-        }
-        [Theory]
-        [InlineData("FabLab UCL")]
-        [InlineData("BackYardMakerSpace")]
-        [InlineData("A Third one")]
-        public void GetMakerSpaceById_NotExists(string name){
-            Guid id = Guid.NewGuid();
-            _repo.Setup(repo => repo.GetMakerSpaceById(id)).Returns(
-                new MakerSpace(){
-                    MakerSpaceId = id,
-                    MakerSpaceName = name
-                }
-            );
-            MakerSpaceReadDto result = null;
-            try{
-                result = _service.GetMakerSpaceById(new Guid("451dd7c8-b533-4c43-ac0b-582b1d1a37eb"));
-            }
-            catch(Exception e){
-                Assert.IsType(typeof(NullReferenceException), e);
-            }
-            Assert.Equal(result, null);
-        }
 
         [Theory]
         [InlineData("FabLab UCL")]
         [InlineData("BackYardMakerSpace")]
         [InlineData("A Third one")]
-        public void GetMakerSpaceByName_Exists(string name){
+        public void GetMakerSpaceByName_Exists(string name)
+        {
             _repo.Setup(repo => repo.GetMakerSpaceByName(name)).Returns(
-                new MakerSpace(){
+                new MakerSpace()
+                {
                     MakerSpaceName = name
                 }
             );
@@ -98,32 +65,71 @@ namespace FabLabSandboxAPITest
         }
 
         [Theory]
-        [InlineData("2700")]
-        public void GetMakerSpaceByPostCode_Verify(string postCode)
+        [MemberData(nameof(MakerSpaceIds))]
+        public void GetMakerSpaceById_Exists(Guid id)
         {
             //Arrange
-            var result = _service.GetMakerSpaceByPostCode(postCode);
+            _repo.Setup(repo => repo.GetMakerSpaceById(id)).Returns(
+                new MakerSpace()
+                {
+                    MakerSpaceId = id
+                }
+            );
 
-            //ACT
-            //Postal Code list from spreadsheet.
-            List<string> postalCodes = new List<string>();
-
-            //Read from spreadsheet and store in list.
-            var path = System.IO.Directory.GetCurrentDirectory(); //Finds build folder with compiled files
-            var reader = new StreamReader(File.OpenRead(path + "/danske-postnumre-byer-1.csv"));
-            while (!reader.EndOfStream)
-            {
-                var line = reader.ReadLine();
-                postalCodes.Add(line.Split(';')[0]);
-            }
-            postalCodes.RemoveAt(0);
-
-            string match = postalCodes
-                    .FirstOrDefault(stringToCheck => stringToCheck.Contains(postCode));
+            //Act
+            var result = _service.GetMakerSpaceById(id);
 
             //Assert
-            //Assert.Equal(result.MakerSpacePostCode, match);
-
+            _repo.Verify(repo => repo.GetMakerSpaceById(id), Times.Once);
+            Assert.Equal(result.MakerSpaceId, id);
         }
+
+        [Theory]
+        [ClassData(typeof(MakerSpaceTestData))]
+        public void GetMakerSpaceById_NotExists(Guid id)
+        {
+            //Arrange
+
+            //Act
+            MakerSpaceReadDto result = null;
+
+            //Assert
+            Assert.Throws<NullReferenceException>(
+                () => result = _service.GetMakerSpaceById(id));
+            _repo.Verify(repo => repo.GetMakerSpaceById(id), Times.Once);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void CreateMakerSpace_Valid()
+        {
+            //Arrange
+            MakerSpaceCreateDto mySpace = new MakerSpaceCreateDto
+            {
+                MakerSpaceName = "BestName",
+                ZipCode = "2700",
+                StreetName = "Group5Street",
+                StreetNumber = "5",
+                City = "FiveCity"
+            };
+
+            //Act
+            var result = _service.CreateMakerSpace(mySpace);
+
+            //Assert
+            Assert.Equal(mySpace.MakerSpaceName, result.MakerSpaceName);
+            Assert.Equal(mySpace.ZipCode, result.ZipCode);
+            Assert.Equal(mySpace.StreetName, result.StreetName);
+            Assert.Equal(mySpace.StreetNumber, result.StreetNumber);
+            Assert.Equal(mySpace.City, result.City);
+        }
+
+        public static IEnumerable<object[]> MakerSpaceIds =>
+            new List<object[]>
+            {
+            new object[] { Guid.NewGuid() },
+            new object[] { Guid.NewGuid() },
+            new object[] { Guid.NewGuid() },
+            };
     }
 }
